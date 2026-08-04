@@ -1,0 +1,29 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title = '资料状态说明' } = Astro.props;
+---
+
+<aside class="placeholder-notice" aria-label={title}>
+  <strong>{title}</strong>
+  <p><slot>带有“待企业确认”的内容尚未作为正式企业事实发布，上线前需要企业逐项核实。</slot></p>
+</aside>
+
+<style>
+  .placeholder-notice {
+    padding: 18px 20px;
+    border-left: 4px solid var(--color-accent);
+    background: #fbf7e9;
+  }
+
+  strong {
+    color: var(--color-forest-dark);
+  }
+
+  p {
+    margin: 5px 0 0;
+    color: #5f6259;
+  }
+</style>

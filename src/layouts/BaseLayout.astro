@@ -1,0 +1,86 @@
+---
+import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import JsonLd from '../components/JsonLd.astro';
+import { siteConfig, isConfirmedValue } from '../data/site';
+
+interface Breadcrumb {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  breadcrumbs?: Breadcrumb[];
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title,
+  description,
+  canonicalPath = Astro.url.pathname,
+  breadcrumbs = [],
+  jsonLd,
+} = Astro.props;
+const canonical = new URL(canonicalPath, siteConfig.siteUrl).toString();
+const organization: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: siteConfig.companyName,
+  url: siteConfig.siteUrl,
+  description: siteConfig.description,
+};
+
+if (isConfirmedValue(siteConfig.phone)) organization.telephone = siteConfig.phone;
+if (isConfirmedValue(siteConfig.email)) organization.email = siteConfig.email;
+if (isConfirmedValue(siteConfig.registeredAddress)) {
+  organization.address = {
+    '@type': 'PostalAddress',
+    streetAddress: siteConfig.registeredAddress,
+  };
+}
+
+const breadcrumbJsonLd = breadcrumbs.length > 0 ? {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: breadcrumbs.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.label,
+    item: new URL(item.href, siteConfig.siteUrl).toString(),
+  })),
+} : undefined;
+
+const structuredData = [organization, breadcrumbJsonLd, ...(Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [])].filter(Boolean) as Record<string, unknown>[];
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="theme-color" content="#174d3b" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <JsonLd data={structuredData} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">跳到主要内容</a>
+    <SiteHeader />
+    <main id="main-content">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>

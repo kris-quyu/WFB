@@ -1,0 +1,49 @@
+---
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description: string;
+  breadcrumbs?: Crumb[];
+}
+
+const { eyebrow = '企业信息', title, description, breadcrumbs = [] } = Astro.props;
+---
+
+<section class="page-hero">
+  <div class="container page-hero__inner">
+    {breadcrumbs.length > 0 && (
+      <ol class="breadcrumbs" aria-label="面包屑导航">
+        {breadcrumbs.map((crumb) => (
+          <li>{crumb.href ? <a href={crumb.href}>{crumb.label}</a> : <span aria-current="page">{crumb.label}</span>}</li>
+        ))}
+      </ol>
+    )}
+    <p class="eyebrow">{eyebrow}</p>
+    <h1 class="display-title">{title}</h1>
+    <p class="page-hero__description">{description}</p>
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    padding-block: clamp(60px, 9vw, 120px);
+    border-bottom: 1px solid var(--color-line);
+    background: var(--color-warm-gray);
+  }
+
+  .page-hero__inner {
+    max-width: var(--content-width);
+  }
+
+  .page-hero__description {
+    max-width: 760px;
+    margin: 26px 0 0;
+    color: var(--color-muted);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+  }
+</style>

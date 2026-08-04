@@ -1,0 +1,253 @@
+:root {
+  --color-forest: #174d3b;
+  --color-forest-dark: #0d3529;
+  --color-forest-soft: #dfe9e3;
+  --color-warm-gray: #f2f0ea;
+  --color-paper: #fffefa;
+  --color-ink: #222824;
+  --color-muted: #647068;
+  --color-line: #d8d8cf;
+  --color-accent: #d2a72d;
+  --font-sans: "Noto Sans SC", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+  --content-width: 1180px;
+  --shadow-low: 0 12px 32px rgb(24 45 36 / 8%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--color-ink);
+  background: var(--color-paper);
+  font-family: var(--font-sans);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 999;
+  top: 8px;
+  left: 8px;
+  padding: 8px 14px;
+  color: white;
+  background: var(--color-forest-dark);
+  transform: translateY(-160%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.container {
+  width: min(calc(100% - 40px), var(--content-width));
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: clamp(64px, 8vw, 112px);
+}
+
+.section--warm {
+  background: var(--color-warm-gray);
+}
+
+.section-heading {
+  max-width: 760px;
+  margin: 0 0 42px;
+}
+
+.section-heading__eyebrow,
+.eyebrow {
+  margin: 0 0 10px;
+  color: var(--color-forest);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.section-heading h2,
+.display-title {
+  margin: 0;
+  font-size: clamp(2rem, 4.2vw, 3.75rem);
+  line-height: 1.14;
+  letter-spacing: -0.035em;
+}
+
+.section-heading h2 {
+  display: inline;
+  box-shadow: inset 0 -0.18em 0 var(--color-accent);
+}
+
+.section-heading p {
+  max-width: 650px;
+  margin: 24px 0 0;
+  color: var(--color-muted);
+  font-size: 1.05rem;
+}
+
+.grid {
+  display: grid;
+  gap: 24px;
+}
+
+.grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.card {
+  padding: 28px;
+  border: 1px solid var(--color-line);
+  border-radius: 4px;
+  background: var(--color-paper);
+}
+
+.card h2,
+.card h3 {
+  margin-top: 0;
+  line-height: 1.35;
+}
+
+.card p:last-child {
+  margin-bottom: 0;
+}
+
+.button {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 20px;
+  border: 1px solid var(--color-forest);
+  border-radius: 2px;
+  color: white;
+  background: var(--color-forest);
+  font-weight: 750;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.button:hover {
+  background: var(--color-forest-dark);
+}
+
+.button--outline {
+  color: var(--color-forest);
+  background: transparent;
+}
+
+.button--outline:hover {
+  color: white;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.fact-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fact-list li {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.fact-list strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--color-forest-dark);
+}
+
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 0 0 24px;
+  padding: 0;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  list-style: none;
+}
+
+.breadcrumbs li:not(:last-child)::after {
+  content: "/";
+  margin-left: 7px;
+  color: #9aa39d;
+}
+
+.prose {
+  max-width: 780px;
+}
+
+.prose h2 {
+  margin-top: 2.2em;
+  line-height: 1.35;
+}
+
+.prose p,
+.prose li {
+  color: #465048;
+}
+
+@media (max-width: 920px) {
+  .grid--3 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .container {
+    width: min(calc(100% - 28px), var(--content-width));
+  }
+
+  .section {
+    padding-block: 56px;
+  }
+
+  .grid--2,
+  .grid--3 {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 22px;
+  }
+}

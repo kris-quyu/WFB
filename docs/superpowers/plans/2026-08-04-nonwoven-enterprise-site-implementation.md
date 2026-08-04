@@ -250,7 +250,7 @@ Run: `git add src public tests && git commit -m "feat: add seo geo structured da
 
 - [ ] **Step 1: 写上线清单**
 
-README 必须列出企业名称、域名、备案号、Logo、联系方式、三类产品、参数、设备、质量标准、应用范围和真实照片；明确 EdgeOne 构建命令为 `npm run build`、输出目录为 `dist`、Node 版本为 20 或更高。
+README 必须列出企业名称、域名、备案号、Logo、联系方式、三类产品、参数、设备、质量标准、应用范围和真实照片；明确 EdgeOne 构建命令为 `pnpm run build`、输出目录为 `dist`、Node 版本为 22.12 或更高。
 
 - [ ] **Step 2: 安装依赖并运行完整验证**
 

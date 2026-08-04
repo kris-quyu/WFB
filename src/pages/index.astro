@@ -18,7 +18,11 @@ import { siteConfig } from '../data/site';
     <div class="container home-hero__grid">
       <div class="home-hero__copy">
         <p class="eyebrow">NONWOVEN MANUFACTURING</p>
-        <h1>把产品参数、生产现场和质量流程说清楚</h1>
+        <h1>
+          <span>把产品参数、</span>
+          <span>生产现场和</span>
+          <span>质量流程说清楚</span>
+        </h1>
         <p>{siteConfig.description}</p>
         <div class="button-row">
           <a class="button" href="#products">查看产品资料</a>
@@ -99,16 +103,25 @@ import { siteConfig } from '../data/site';
 
   .home-hero__grid {
     display: grid;
-    grid-template-columns: 0.85fr 1.4fr;
+    grid-template-columns: 1fr 1.28fr;
     gap: clamp(28px, 5vw, 70px);
     align-items: center;
   }
 
+  .home-hero__grid > * {
+    min-width: 0;
+  }
+
   .home-hero h1 {
     margin: 0;
-    font-size: clamp(2.4rem, 5.2vw, 5rem);
+    font-size: clamp(2.4rem, 4.2vw, 4.2rem);
     line-height: 1.06;
     letter-spacing: -0.055em;
+    overflow-wrap: anywhere;
+  }
+
+  .home-hero h1 span {
+    display: block;
   }
 
   .home-hero__copy > p:not(.eyebrow) {
@@ -143,6 +156,13 @@ import { siteConfig } from '../data/site';
     .home-hero__grid,
     .faq-preview {
       grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .home-hero h1 {
+      font-size: 2.12rem;
+      letter-spacing: -0.035em;
     }
   }
 </style>

@@ -97,6 +97,26 @@ test('content components keep specifications and contact details honest', () => 
   assert.match(contact, /mailto:/);
 });
 
+test('JSON-LD is emitted as an explicit inline data script', () => {
+  const jsonLd = readFileSync(resolve(root, 'src/components/JsonLd.astro'), 'utf8');
+  assert.match(jsonLd, /<script\s+is:inline\s+type="application\/ld\+json"/);
+});
+
+test('layout declares an existing temporary favicon asset', () => {
+  const layout = readFileSync(resolve(root, 'src/layouts/BaseLayout.astro'), 'utf8');
+  assert.match(layout, /rel="icon"[^>]+href="\/images\/nonwoven-production-line\.png"/);
+});
+
+test('mobile layout includes safeguards against horizontal overflow', () => {
+  const globalCss = readFileSync(resolve(root, 'src/styles/global.css'), 'utf8');
+  const home = readFileSync(resolve(root, 'src/pages/index.astro'), 'utf8');
+  const header = readFileSync(resolve(root, 'src/components/SiteHeader.astro'), 'utf8');
+  assert.match(globalCss, /overflow-x:\s*clip/);
+  assert.match(home, /\.home-hero__grid\s*>\s*\*\s*{[^}]*min-width:\s*0/s);
+  assert.match(home, /overflow-wrap:\s*anywhere/);
+  assert.match(header, /\.menu-button\s*{[^}]*flex-shrink:\s*0/s);
+});
+
 test('all requested routes have semantic page sources', () => {
   const pages = [
     ['src/pages/index.astro', '生产现场'],

@@ -127,6 +127,7 @@ const currentPath = Astro.url.pathname;
 
   .menu-button {
     display: none;
+    flex-shrink: 0;
     margin-left: auto;
     padding: 9px 14px;
     border: 1px solid var(--color-forest);
@@ -177,6 +178,10 @@ const currentPath = Astro.url.pathname;
     .brand {
       min-width: 0;
       max-width: calc(100vw - 130px);
+    }
+
+    .brand__name {
+      font-size: 0.95rem;
     }
 
     .primary-nav {

@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import ContactPanel from '../../../components/ContactPanel.astro';
+import { knowledgeArticles } from '../../../data/content';
+import { siteConfig } from '../../../data/site';
+
+const article = knowledgeArticles[0];
+const path = `/knowledge/${article.slug}/`;
+const crumbs = [
+  { label: '首页', href: '/' },
+  { label: 'FAQ / 知识库', href: '/knowledge/' },
+  { label: article.title, href: path },
+];
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: article.title,
+  description: article.summary,
+  datePublished: article.publishedAt,
+  dateModified: article.updatedAt,
+  mainEntityOfPage: new URL(path, siteConfig.siteUrl).toString(),
+  author: {
+    '@type': 'Organization',
+    name: siteConfig.companyName,
+  },
+};
+---
+
+<BaseLayout title={`${article.title}｜无纺布知识库`} description={article.summary} canonicalPath={path} breadcrumbs={crumbs} jsonLd={articleJsonLd}>
+  <PageHero eyebrow="采购指南" title={article.title} description={article.summary} breadcrumbs={crumbs} />
+  <article class="section">
+    <div class="container prose">
+      <p class="article-meta">发布：{article.publishedAt} · 更新：{article.updatedAt}</p>
+      <p>无纺布询价如果只写“需要一批无纺布”，厂家很难判断材料、工艺和报价基础。下面这份清单用于整理需求，不代表任何企业已经具备特定产品或指标。</p>
+
+      <h2>1. 先说明最终用途</h2>
+      <p>说明产品用于包装、家具、农业、过滤、一次性用品还是其他场景，同时写清楚是否接触水、油、化学介质，以及温度、湿度和使用周期。</p>
+
+      <h2>2. 明确材料与工艺</h2>
+      <p>如果已有指定材料或工艺，应直接写入询价单；不确定时可以提供样品、照片或现有产品说明，由企业判断其设备是否适配。</p>
+
+      <h2>3. 列出基础规格</h2>
+      <ul>
+        <li>克重及允许偏差</li>
+        <li>幅宽、卷长和卷径</li>
+        <li>颜色与外观要求</li>
+        <li>数量和预计采购频次</li>
+      </ul>
+
+      <h2>4. 提供质量与测试要求</h2>
+      <p>如项目有执行标准、客户规范或具体检测项目，请提供完整名称、编号、目标值和报告要求。不要只写“质量要好”或“达到行业标准”。</p>
+
+      <h2>5. 确认包装和交付</h2>
+      <p>说明单卷包装、内外包装材料、标签、唛头、托盘、装柜或零担运输要求，并提供收货地点和希望交期。</p>
+
+      <h2>6. 需要厂家回复的项目</h2>
+      <p>建议要求厂家逐项回复可做范围、MOQ、打样方式、交期、报价有效期、付款与交付条件，以及哪些参数需要进一步试样确认。</p>
+    </div>
+  </article>
+  <div class="container section"><ContactPanel /></div>
+</BaseLayout>
+
+<style>
+  .article-meta {
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--color-line);
+    color: var(--color-muted);
+    font-size: 0.9rem;
+  }
+</style>

@@ -17,6 +17,15 @@ const crumbs = [
   { label: '首页', href: '/' },
   { label: product.displayName, href: path },
 ];
+const productJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: `${product.displayName} · ${product.confirmedName}`,
+  description: product.summary,
+  material: product.material,
+  category: '无纺布',
+  url: new URL(path, siteConfig.siteUrl).toString(),
+};
 ---
 
 <BaseLayout
@@ -24,6 +33,7 @@ const crumbs = [
   description={product.summary}
   canonicalPath={path}
   breadcrumbs={crumbs}
+  jsonLd={productJsonLd}
 >
   <PageHero
     eyebrow="产品资料"

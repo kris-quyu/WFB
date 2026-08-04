@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import PhotoEvidence from '../../components/PhotoEvidence.astro';
+import EvidenceCard from '../../components/EvidenceCard.astro';
+import PlaceholderNotice from '../../components/PlaceholderNotice.astro';
+import { siteConfig } from '../../data/site';
+const crumbs = [{ label: '首页', href: '/' }, { label: '工厂实力', href: '/factory/' }];
+---
+<BaseLayout title={`工厂实力｜${siteConfig.shortName}`} description="查看无纺布生产现场、原料管理、生产流程、仓储和发货资料。" canonicalPath="/factory/" breadcrumbs={crumbs}>
+  <PageHero eyebrow="生产现场" title="工厂实力" description="用现场与流程资料说明生产条件，不用未经确认的规模数字包装企业。" breadcrumbs={crumbs} />
+  <section class="section"><div class="container"><PhotoEvidence src="/images/nonwoven-production-line.png" alt="无纺布生产设备与白色卷材现场" label="现场照片" caption="当前已提供一张生产现场图；厂房外景、原料区、仓储区和发货区照片仍待企业补充。" wide /></div></section>
+  <section class="section section--warm"><div class="container grid grid--2"><EvidenceCard index="01" title="原料管理" description="[待企业确认：原料名称、入库检查与批次管理方式]"/><EvidenceCard index="02" title="生产过程" description="[待企业确认：实际生产流程与关键控制点]"/><EvidenceCard index="03" title="仓储管理" description="[待企业确认：成品分区、标识与库存管理方式]"/><EvidenceCard index="04" title="包装发货" description="[待企业确认：包装、装车与交付检查方式]"/></div></section>
+  <section class="section"><div class="container"><PlaceholderNotice title="补充照片建议">建议后续补充工厂门头、车间全景、原料区、仓储区、包装和发货现场，每张照片注明拍摄位置和实际用途。</PlaceholderNotice></div></section>
+</BaseLayout>

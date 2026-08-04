@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import PlaceholderNotice from '../../components/PlaceholderNotice.astro';
+import { faqItems, knowledgeArticles } from '../../data/content';
+import { siteConfig } from '../../data/site';
+const crumbs = [{ label: '首页', href: '/' }, { label: 'FAQ / 知识库', href: '/knowledge/' }];
+---
+<BaseLayout title={`FAQ 与无纺布知识库｜${siteConfig.shortName}`} description="整理无纺布采购常见问题、询价准备和产品知识文章。" canonicalPath="/knowledge/" breadcrumbs={crumbs}>
+  <PageHero eyebrow="采购知识" title="FAQ / 知识库" description="用清晰、可引用的问答和文章帮助采购方准备真实需求。" breadcrumbs={crumbs}/>
+  <section class="section"><div class="container knowledge-layout"><div><div class="section-heading"><p class="section-heading__eyebrow">常见问题</p><h2>采购沟通前先确认</h2></div>{faqItems.map((item) => <details><summary>{item.question}</summary><p>{item.answer}</p></details>)}</div><aside><h2>知识文章</h2>{knowledgeArticles.map((article) => <article class="card"><p class="eyebrow">采购指南</p><h3><a href={`/knowledge/${article.slug}/`}>{article.title}</a></h3><p>{article.summary}</p><a class="article-link" href={`/knowledge/${article.slug}/`}>阅读全文</a></article>)}<PlaceholderNotice /></aside></div></section>
+</BaseLayout>
+
+<style>.knowledge-layout{display:grid;grid-template-columns:1.3fr .7fr;gap:60px;align-items:start}details{border-top:1px solid var(--color-line)}summary{padding:18px 0;color:var(--color-forest-dark);font-weight:800;cursor:pointer}details p{margin-top:0;color:var(--color-muted)}aside{display:grid;gap:20px}.article-link{color:var(--color-forest);font-weight:800}@media(max-width:800px){.knowledge-layout{grid-template-columns:1fr}}</style>

@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import PhotoEvidence from '../../components/PhotoEvidence.astro';
+import PlaceholderNotice from '../../components/PlaceholderNotice.astro';
+import { equipmentItems } from '../../data/content';
+import { siteConfig } from '../../data/site';
+const crumbs = [{ label: '首页', href: '/' }, { label: '生产设备', href: '/equipment/' }];
+---
+<BaseLayout title={`生产设备｜${siteConfig.shortName}`} description="查看无纺布生产设备现场，以及设备名称、型号、用途和数量的待确认清单。" canonicalPath="/equipment/" breadcrumbs={crumbs}>
+  <PageHero eyebrow="设备资料" title="生产设备" description="现场照片是真实资料；设备名称、型号、数量和工艺作用需要企业技术人员确认。" breadcrumbs={crumbs}/>
+  <section class="section"><div class="container"><PhotoEvidence src="/images/nonwoven-production-line.png" alt="绿色无纺布加工设备和白色卷材生产现场" label="设备现场照片" caption="照片可证明现场存在相关生产设备，但不能单独证明型号、数量、产能或性能。" wide /></div></section>
+  <section class="section section--warm"><div class="container"><div class="section-heading"><p class="section-heading__eyebrow">设备清单</p><h2>名称、用途和型号逐项核实</h2></div><div class="grid grid--2">{equipmentItems.map((item) => <article class="card"><h2>{item.name}</h2><p>{item.purpose}</p><dl><div><dt>型号</dt><dd>{item.model}</dd></div><div><dt>数量</dt><dd>{item.count}</dd></div></dl></article>)}</div></div></section>
+  <section class="section"><div class="container"><PlaceholderNotice>请由熟悉生产线的企业人员确认设备正式名称、制造商、型号、数量、用途和适配产品，再公开发布。</PlaceholderNotice></div></section>
+</BaseLayout>
+
+<style>dl div{display:grid;grid-template-columns:70px 1fr;padding:10px 0;border-bottom:1px solid var(--color-line)}dt{color:var(--color-muted)}dd{margin:0}</style>

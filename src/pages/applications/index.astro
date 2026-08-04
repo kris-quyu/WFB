@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import ContactPanel from '../../components/ContactPanel.astro';
+import { applications } from '../../data/content';
+import { siteConfig } from '../../data/site';
+const crumbs = [{ label: '首页', href: '/' }, { label: '应用场景', href: '/applications/' }];
+---
+<BaseLayout title={`应用场景｜${siteConfig.shortName}`} description="按包装、家具、农业、过滤、一次性用品和其他定制用途梳理无纺布选型信息。" canonicalPath="/applications/" breadcrumbs={crumbs}>
+  <PageHero eyebrow="选型思路" title="应用场景" description="应用页不承诺未经确认的产品性能，而是帮助采购方整理工况和选型条件。" breadcrumbs={crumbs}/>
+  <section class="section"><div class="container applications">{applications.map((item, index) => <article><span>{String(index + 1).padStart(2, '0')}</span><div><h2>{item.name}</h2><p><strong>关注：</strong>{item.focus}</p><p><strong>候选产品：</strong>{item.candidateProduct}</p><p><strong>询价需提供：</strong>{item.inquiryInput}</p></div></article>)}</div></section>
+  <div class="container section"><ContactPanel /></div>
+</BaseLayout>
+
+<style>.applications{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--color-line);border:1px solid var(--color-line)}article{display:grid;grid-template-columns:58px 1fr;gap:18px;padding:30px;background:var(--color-paper)}article>span{color:var(--color-accent);font-size:1.5rem;font-weight:900}h2{margin:0}p{color:var(--color-muted)}@media(max-width:760px){.applications{grid-template-columns:1fr}}</style>

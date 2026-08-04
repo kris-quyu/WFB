@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import PlaceholderNotice from '../../components/PlaceholderNotice.astro';
+import ContactPanel from '../../components/ContactPanel.astro';
+import { siteConfig } from '../../data/site';
+
+const crumbs = [{ label: '首页', href: '/' }, { label: '企业介绍', href: '/about/' }];
+---
+
+<BaseLayout title={`企业介绍｜${siteConfig.shortName}`} description="了解企业主体、经营范围、工厂地址和主营产品。所有待确认资料将在企业核实后更新。" canonicalPath="/about/" breadcrumbs={crumbs}>
+  <PageHero eyebrow="关于企业" title="企业介绍" description="先把企业主体和经营边界讲清楚，再谈产品与合作。" breadcrumbs={crumbs} />
+  <section class="section"><div class="container grid grid--2">
+    <div><div class="section-heading"><p class="section-heading__eyebrow">企业概况</p><h2>一家传统小型制造企业</h2></div><p>{siteConfig.description}</p><p>网站不使用未经确认的规模、荣誉或客户数据。企业资料齐备后，将按工商和实际经营信息逐项更新。</p></div>
+    <dl class="card fact-list"><div><dt>企业名称</dt><dd>{siteConfig.companyName}</dd></div><div><dt>成立时间</dt><dd>{siteConfig.foundedAt}</dd></div><div><dt>注册地址</dt><dd>{siteConfig.registeredAddress}</dd></div><div><dt>工厂地址</dt><dd>{siteConfig.factoryAddress}</dd></div></dl>
+  </div></section>
+  <section class="section section--warm"><div class="container grid grid--3"><article class="card"><h2>主营范围</h2><p>[待企业确认：工商经营范围与实际主营产品]</p></article><article class="card"><h2>服务方式</h2><p>[待企业确认：来样、来图、规格定制与合作流程]</p></article><article class="card"><h2>主要市场</h2><p>[待企业确认：主要销售地区与客户类型]</p></article></div></section>
+  <section class="section"><div class="container"><PlaceholderNotice /></div></section>
+  <div class="container section"><ContactPanel /></div>
+</BaseLayout>
+
+<style>dl div{display:grid;grid-template-columns:100px 1fr;padding:12px 0;border-bottom:1px solid var(--color-line)}dt{color:var(--color-muted)}dd{margin:0}</style>

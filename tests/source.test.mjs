@@ -96,3 +96,35 @@ test('content components keep specifications and contact details honest', () => 
   assert.match(contact, /tel:/);
   assert.match(contact, /mailto:/);
 });
+
+test('all requested routes have semantic page sources', () => {
+  const pages = [
+    ['src/pages/index.astro', '生产现场'],
+    ['src/pages/about/index.astro', '企业介绍'],
+    ['src/pages/factory/index.astro', '工厂实力'],
+    ['src/pages/equipment/index.astro', '生产设备'],
+    ['src/pages/quality/index.astro', '质量检测'],
+    ['src/pages/products/product-a/index.astro', 'product-a'],
+    ['src/pages/products/product-b/index.astro', 'product-b'],
+    ['src/pages/products/product-c/index.astro', 'product-c'],
+    ['src/pages/applications/index.astro', '应用场景'],
+    ['src/pages/knowledge/index.astro', '知识库'],
+    ['src/pages/404.astro', '返回首页'],
+  ];
+
+  for (const [relative, expected] of pages) {
+    const path = resolve(root, relative);
+    assert.equal(existsSync(path), true, `${relative} should exist`);
+    const source = readFileSync(path, 'utf8');
+    assert.match(source, /<h1|<PageHero|<ProductDetail/);
+    assert.match(source, new RegExp(expected));
+  }
+
+  const home = readFileSync(resolve(root, 'src/pages/index.astro'), 'utf8');
+  const equipment = readFileSync(resolve(root, 'src/pages/equipment/index.astro'), 'utf8');
+  const quality = readFileSync(resolve(root, 'src/pages/quality/index.astro'), 'utf8');
+  assert.match(home, /nonwoven-production-line\.png/);
+  assert.match(equipment, /现场照片/);
+  assert.match(quality, /通用流程/);
+  assert.match(quality, /待企业确认/);
+});

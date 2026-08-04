@@ -1,0 +1,6 @@
+---
+import ProductDetail from '../../../components/ProductDetail.astro';
+import { getProduct } from '../../../data/products';
+const product = getProduct('product-c')!;
+---
+<ProductDetail product={product} />

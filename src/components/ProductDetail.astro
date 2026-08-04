@@ -1,0 +1,121 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from './PageHero.astro';
+import SpecTable from './SpecTable.astro';
+import PlaceholderNotice from './PlaceholderNotice.astro';
+import ContactPanel from './ContactPanel.astro';
+import type { Product } from '../data/products';
+import { siteConfig } from '../data/site';
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+const path = `/products/${product.slug}/`;
+const crumbs = [
+  { label: '首页', href: '/' },
+  { label: product.displayName, href: path },
+];
+---
+
+<BaseLayout
+  title={`${product.displayName}｜${siteConfig.shortName}`}
+  description={product.summary}
+  canonicalPath={path}
+  breadcrumbs={crumbs}
+>
+  <PageHero
+    eyebrow="产品资料"
+    title={`${product.displayName} · ${product.confirmedName}`}
+    description={product.summary}
+    breadcrumbs={crumbs}
+  />
+  <section class="section">
+    <div class="container product-intro grid grid--2">
+      <div>
+        <div class="section-heading">
+          <p class="section-heading__eyebrow">基础定义</p>
+          <h2>先确认材料与工艺</h2>
+        </div>
+        <dl class="definition-list">
+          <div><dt>材料</dt><dd>{product.material}</dd></div>
+          <div><dt>工艺</dt><dd>{product.process}</dd></div>
+          <div><dt>包装</dt><dd>{product.packaging}</dd></div>
+        </dl>
+      </div>
+      <PlaceholderNotice>
+        本页是产品结构模板。真实产品名、规格、特点、包装和适用场景需要企业依据产品资料逐项确认。
+      </PlaceholderNotice>
+    </div>
+  </section>
+  <section class="section section--warm">
+    <div class="container">
+      <div class="section-heading">
+        <p class="section-heading__eyebrow">规格参数</p>
+        <h2>询价时需要明确的参数</h2>
+      </div>
+      <SpecTable rows={product.specifications} caption={`${product.displayName} 参数表`} />
+    </div>
+  </section>
+  <section class="section">
+    <div class="container grid grid--3">
+      <article class="card"><h2>当前特点</h2><ul>{product.features.map((item) => <li>{item}</li>)}</ul></article>
+      <article class="card"><h2>应用方向</h2><ul>{product.applications.map((item) => <li>{item}</li>)}</ul></article>
+      <article class="card"><h2>可讨论定制项</h2><ul>{product.customization.map((item) => <li>{item}</li>)}</ul></article>
+    </div>
+  </section>
+  <section class="section section--warm">
+    <div class="container">
+      <div class="section-heading">
+        <p class="section-heading__eyebrow">采购清单</p>
+        <h2>联系厂家前，请准备这些信息</h2>
+      </div>
+      <ol class="purchase-list">{product.purchaseChecklist.map((item) => <li>{item}</li>)}</ol>
+    </div>
+  </section>
+  <div class="container section"><ContactPanel /></div>
+</BaseLayout>
+
+<style>
+  .product-intro {
+    align-items: start;
+  }
+
+  .definition-list {
+    margin: 0;
+  }
+
+  .definition-list div {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  dt {
+    color: var(--color-muted);
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 650;
+  }
+
+  li {
+    margin-bottom: 8px;
+  }
+
+  .purchase-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 36px;
+    padding-left: 24px;
+  }
+
+  @media (max-width: 700px) {
+    .purchase-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

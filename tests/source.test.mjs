@@ -61,3 +61,38 @@ test('industrial design shell and supplied production photo are present', () => 
   const digest = (path) => createHash('sha256').update(readFileSync(path)).digest('hex');
   assert.equal(digest(projectImage), digest(sourceImage), 'project photo should preserve source bytes');
 });
+
+test('product and evidence content cover real procurement decisions', () => {
+  const productsPath = resolve(root, 'src/data/products.ts');
+  const contentPath = resolve(root, 'src/data/content.ts');
+  assert.equal(existsSync(productsPath), true, 'src/data/products.ts should exist');
+  assert.equal(existsSync(contentPath), true, 'src/data/content.ts should exist');
+
+  const products = readFileSync(productsPath, 'utf8');
+  const content = readFileSync(contentPath, 'utf8');
+  for (const slug of ['product-a', 'product-b', 'product-c']) {
+    assert.match(products, new RegExp(`slug:\\s*['\"]${slug}['\"]`));
+  }
+  for (const field of ['material', 'process', 'specifications', 'applications', 'purchaseChecklist']) {
+    assert.match(products, new RegExp(`${field}:`));
+  }
+  for (const topic of ['MOQ', '打样', '交期', '包装', '运输', '定制']) {
+    assert.match(content, new RegExp(topic));
+  }
+  assert.doesNotMatch(`${products}\n${content}`, /行业领先|全球领先|年产\s*\d|通过\s*ISO/);
+});
+
+test('content components keep specifications and contact details honest', () => {
+  for (const relative of [
+    'src/components/ProductCard.astro',
+    'src/components/EvidenceCard.astro',
+    'src/components/SpecTable.astro',
+    'src/components/ContactPanel.astro',
+  ]) {
+    assert.equal(existsSync(resolve(root, relative)), true, `${relative} should exist`);
+  }
+  const contact = readFileSync(resolve(root, 'src/components/ContactPanel.astro'), 'utf8');
+  assert.match(contact, /isConfirmedValue/);
+  assert.match(contact, /tel:/);
+  assert.match(contact, /mailto:/);
+});

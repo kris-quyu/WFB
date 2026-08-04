@@ -1,0 +1,65 @@
+---
+import type { Product } from '../data/products';
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+---
+
+<article class="product-card card">
+  <p class="product-card__index">{product.displayName}</p>
+  <h3>{product.confirmedName}</h3>
+  <p>{product.summary}</p>
+  <dl>
+    <div><dt>材质</dt><dd>{product.material}</dd></div>
+    <div><dt>工艺</dt><dd>{product.process}</dd></div>
+  </dl>
+  <a class="text-link" href={`/products/${product.slug}/`}>查看参数与采购事项</a>
+</article>
+
+<style>
+  .product-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-card__index {
+    margin: 0 0 16px;
+    color: var(--color-forest);
+    font-size: 0.78rem;
+    font-weight: 850;
+    letter-spacing: 0.12em;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
+
+  dl {
+    margin: 8px 0 22px;
+  }
+
+  dl div {
+    display: grid;
+    grid-template-columns: 62px 1fr;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  dt {
+    color: var(--color-muted);
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  .text-link {
+    margin-top: auto;
+    color: var(--color-forest);
+    font-weight: 800;
+  }
+</style>

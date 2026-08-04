@@ -1,0 +1,73 @@
+---
+import { isConfirmedValue, siteConfig } from '../data/site';
+
+const hasPhone = isConfirmedValue(siteConfig.phone);
+const hasEmail = isConfirmedValue(siteConfig.email);
+---
+
+<section class="contact-panel" aria-labelledby="contact-panel-title">
+  <div>
+    <p class="eyebrow">询价准备</p>
+    <h2 id="contact-panel-title">把用途和规格说清楚，沟通会更有效</h2>
+    <p>建议准备产品用途、材质、克重、幅宽、颜色、数量、包装方式和收货地点。</p>
+  </div>
+  <div class="contact-panel__actions">
+    {hasPhone ? <a class="button" href={`tel:${siteConfig.phone}`}>电话咨询</a> : <span class="contact-panel__pending">电话：{siteConfig.phone}</span>}
+    {hasEmail ? <a class="button button--outline" href={`mailto:${siteConfig.email}`}>邮件询价</a> : <span class="contact-panel__pending">邮箱：{siteConfig.email}</span>}
+  </div>
+</section>
+
+<style>
+  .contact-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 40px;
+    align-items: center;
+    padding: clamp(28px, 5vw, 54px);
+    color: white;
+    background: var(--color-forest-dark);
+  }
+
+  h2 {
+    max-width: 720px;
+    margin: 0;
+    font-size: clamp(1.55rem, 3vw, 2.6rem);
+    line-height: 1.25;
+  }
+
+  p:not(.eyebrow) {
+    max-width: 700px;
+    color: #c8d3cc;
+  }
+
+  .eyebrow {
+    color: #f0cf6a;
+  }
+
+  .contact-panel__actions {
+    display: grid;
+    gap: 10px;
+    min-width: 250px;
+  }
+
+  .button--outline {
+    color: white;
+    border-color: #bdcac2;
+  }
+
+  .contact-panel__pending {
+    padding: 10px 0;
+    color: #d7dfda;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 760px) {
+    .contact-panel {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-panel__actions {
+      min-width: 0;
+    }
+  }
+</style>

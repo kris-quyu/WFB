@@ -1,0 +1,50 @@
+---
+interface Props {
+  index?: string;
+  title: string;
+  description: string;
+  href?: string;
+}
+
+const { index, title, description, href } = Astro.props;
+---
+
+<article class="evidence-card card">
+  {index && <span class="evidence-card__index">{index}</span>}
+  <h3>{title}</h3>
+  <p>{description}</p>
+  {href && <a href={href}>查看可核实资料</a>}
+</article>
+
+<style>
+  .evidence-card {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .evidence-card__index {
+    position: absolute;
+    top: 16px;
+    right: 18px;
+    color: #c3cdc6;
+    font-size: 2.6rem;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  h3 {
+    position: relative;
+    margin-bottom: 12px;
+    padding-right: 56px;
+    font-size: 1.2rem;
+  }
+
+  p {
+    color: var(--color-muted);
+  }
+
+  a {
+    color: var(--color-forest);
+    font-weight: 800;
+  }
+</style>

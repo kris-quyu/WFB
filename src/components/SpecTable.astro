@@ -1,0 +1,58 @@
+---
+import type { ProductSpecification } from '../data/products';
+
+interface Props {
+  rows: ProductSpecification[];
+  caption?: string;
+}
+
+const { rows, caption = '产品规格参数' } = Astro.props;
+---
+
+<div class="spec-table-wrap" tabindex="0" role="region" aria-label={`${caption}，可横向滚动`}>
+  <table class="spec-table">
+    <caption>{caption}</caption>
+    <thead><tr><th scope="col">参数项目</th><th scope="col">当前资料</th></tr></thead>
+    <tbody>
+      {rows.map((row) => <tr><th scope="row">{row.label}</th><td>{row.value}</td></tr>)}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .spec-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--color-line);
+  }
+
+  .spec-table {
+    width: 100%;
+    min-width: 560px;
+    border-collapse: collapse;
+    background: var(--color-paper);
+  }
+
+  caption {
+    padding: 16px 18px;
+    color: white;
+    background: var(--color-forest);
+    font-weight: 850;
+    text-align: left;
+  }
+
+  th,
+  td {
+    padding: 15px 18px;
+    border-bottom: 1px solid var(--color-line);
+    text-align: left;
+  }
+
+  thead th {
+    background: var(--color-warm-gray);
+  }
+
+  tbody th {
+    width: 34%;
+    color: var(--color-forest-dark);
+  }
+</style>

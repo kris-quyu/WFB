@@ -21,7 +21,7 @@
 ### Task 1: 锁定新版首屏与产品区结构
 
 **Files:**
-- Modify: `tests/source.test.mjs`
+- Modify: `tests/dist.test.mjs`
 - Modify: `src/pages/index.astro`
 - Modify: `src/components/ProductCard.astro`
 
@@ -31,7 +31,7 @@
 
 - [ ] **Step 1: 写失败测试**
 
-在 `tests/source.test.mjs` 增加测试，断言首页源码包含：
+在 `tests/dist.test.mjs` 增加测试，读取构建后的 `dist/index.html` 并断言用户可见结构包含：
 
 ```js
 assert.match(home, /class="immersive-hero"/);
@@ -39,14 +39,14 @@ assert.match(home, /class="product-showcase/);
 assert.match(home, /data-product-filter="all"/);
 assert.match(home, /aria-pressed="true"/);
 assert.match(home, /nonwoven-production-line\.png/);
-assert.doesNotMatch(home, /<PhotoEvidence/);
+assert.match(home, /id="product-a"[^>]+data-product-card="product-a"/);
 ```
 
-同时断言 `ProductCard.astro` 包含 `id={product.slug}` 和 `data-product-card={product.slug}`。
+该测试会在旧首页结构或产品卡片无法被胶囊入口定位时失败。
 
 - [ ] **Step 2: 验证测试失败**
 
-Run: `node --test tests/source.test.mjs`
+Run: `pnpm.cmd run build; node --test tests/dist.test.mjs`
 
 Expected: FAIL，因为当前首页仍为 `.home-hero` 分栏结构，且没有产品胶囊入口。
 
@@ -83,7 +83,7 @@ Expected: FAIL，因为当前首页仍为 `.home-hero` 分栏结构，且没有�
 
 - [ ] **Step 5: 运行源码测试**
 
-Run: `node --test tests/source.test.mjs`
+Run: `pnpm.cmd run build; node --test tests/dist.test.mjs`
 
 Expected: 所有源码测试通过。
 
@@ -94,7 +94,7 @@ Expected: 所有源码测试通过。
 **Files:**
 - Modify: `src/pages/index.astro`
 - Modify: `src/components/ProductCard.astro`
-- Test: `tests/source.test.mjs`
+- Test: `tests/dist.test.mjs`
 
 **Interfaces:**
 - Consumes: Task 1 的 CSS 类名和 `data-product-filter` / `data-product-card` 属性。
@@ -102,7 +102,7 @@ Expected: 所有源码测试通过。
 
 - [ ] **Step 1: 写失败测试**
 
-在 `tests/source.test.mjs` 断言首页包含：
+在 `tests/dist.test.mjs` 继续断言最终 HTML 包含：
 
 ```js
 assert.match(home, /--showcase-red:\s*#b8322a/i);
@@ -113,7 +113,7 @@ assert.match(home, /scrollIntoView/);
 
 - [ ] **Step 2: 验证测试失败**
 
-Run: `node --test tests/source.test.mjs`
+Run: `pnpm.cmd run build; node --test tests/dist.test.mjs`
 
 Expected: FAIL，因为视觉变量和按钮交互尚未实现。
 

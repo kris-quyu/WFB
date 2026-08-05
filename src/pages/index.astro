@@ -1,11 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ProductCard from '../components/ProductCard.astro';
 import EvidenceCard from '../components/EvidenceCard.astro';
-import PhotoEvidence from '../components/PhotoEvidence.astro';
 import PlaceholderNotice from '../components/PlaceholderNotice.astro';
 import ContactPanel from '../components/ContactPanel.astro';
-import { products } from '../data/products';
 import { applications, faqItems } from '../data/content';
 import { siteConfig } from '../data/site';
 ---
@@ -14,9 +11,18 @@ import { siteConfig } from '../data/site';
   title={`无纺布产品与生产资料｜${siteConfig.shortName}`}
   description="传统小型无纺布生产企业官网建设版本，集中展示产品、生产现场、设备、质量流程、应用与采购知识。"
 >
-  <section class="home-hero">
-    <div class="container home-hero__grid">
-      <div class="home-hero__copy">
+  <section class="immersive-hero">
+    <img
+      class="immersive-hero__image"
+      src="/images/nonwoven-production-line.png"
+      alt="绿色无纺布生产设备正在加工白色卷材的现场照片"
+      width="1680"
+      height="945"
+      fetchpriority="high"
+    />
+    <div class="immersive-hero__overlay" aria-hidden="true"></div>
+    <div class="container immersive-hero__content">
+      <div class="immersive-hero__copy">
         <p class="eyebrow">NONWOVEN MANUFACTURING</p>
         <h1>
           <span>把产品参数、</span>
@@ -25,30 +31,18 @@ import { siteConfig } from '../data/site';
         </h1>
         <p>{siteConfig.description}</p>
         <div class="button-row">
-          <a class="button" href="#products">查看产品资料</a>
-          <a class="button button--outline" href="#contact">准备询价信息</a>
+          <a class="button immersive-hero__primary" href="/products/">查看产品介绍</a>
+          <a class="button immersive-hero__secondary" href="#contact">准备询价信息</a>
         </div>
       </div>
-      <PhotoEvidence
-        src="/images/nonwoven-production-line.png"
-        alt="绿色无纺布生产设备正在加工白色卷材的现场照片"
-        label="生产现场"
-        caption="用户提供的设备现场图。设备名称、型号、数量与工艺作用仍待企业确认。"
-      />
+      <p class="immersive-hero__caption">
+        <strong>真实生产现场</strong>
+        用户提供的设备现场图；设备名称、型号、数量与工艺作用仍待企业确认。
+      </p>
     </div>
   </section>
 
-  <section id="products" class="section">
-    <div class="container">
-      <div class="section-heading">
-        <p class="section-heading__eyebrow">产品中心</p>
-        <h2>三个独立产品入口</h2>
-        <p>每类产品都有独立页面，便于采购人员、搜索引擎和生成式搜索理解产品与参数。</p>
-      </div>
-      <div class="grid grid--3">{products.map((product) => <ProductCard product={product} />)}</div>
-    </div>
-  </section>
-
+  <div class="homepage-continuation">
   <section class="section section--warm">
     <div class="container">
       <div class="section-heading">
@@ -93,41 +87,137 @@ import { siteConfig } from '../data/site';
     <div class="container"><PlaceholderNotice /></div>
   </section>
   <div id="contact" class="container section"><ContactPanel /></div>
+  </div>
 </BaseLayout>
 
 <style>
-  .home-hero {
-    padding-block: clamp(48px, 7vw, 94px);
-    background: var(--color-warm-gray);
+  .immersive-hero {
+    --showcase-red: #b8322a;
+    --showcase-red-dark: #90251f;
+    --showcase-slate: #405066;
+    --showcase-ink: #1f2429;
+    --showcase-paper: #f4f4f2;
   }
 
-  .home-hero__grid {
-    display: grid;
-    grid-template-columns: 1fr 1.28fr;
-    gap: clamp(28px, 5vw, 70px);
-    align-items: center;
+  .immersive-hero {
+    position: relative;
+    min-height: clamp(600px, calc(100svh - 112px), 760px);
+    overflow: hidden;
+    color: white;
+    background: var(--showcase-slate);
+    isolation: isolate;
   }
 
-  .home-hero__grid > * {
-    min-width: 0;
+  .immersive-hero__image,
+  .immersive-hero__overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
   }
 
-  .home-hero h1 {
+  .immersive-hero__image {
+    z-index: -2;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .immersive-hero__overlay {
+    z-index: -1;
+    background:
+      linear-gradient(90deg, rgb(25 37 52 / 94%) 0%, rgb(52 66 85 / 78%) 47%, rgb(52 66 85 / 22%) 100%),
+      linear-gradient(0deg, rgb(20 28 38 / 40%) 0%, transparent 48%);
+  }
+
+  .immersive-hero__content {
+    position: relative;
+    display: flex;
+    min-height: inherit;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: clamp(72px, 9vw, 126px) 92px;
+  }
+
+  .immersive-hero__copy {
+    max-width: 690px;
+  }
+
+  .immersive-hero .eyebrow {
+    color: #f0bbb7;
+  }
+
+  .immersive-hero h1 {
     margin: 0;
-    font-size: clamp(2.4rem, 4.2vw, 4.2rem);
-    line-height: 1.06;
+    color: white;
+    font-size: clamp(2.8rem, 5vw, 4.9rem);
+    line-height: 1.04;
     letter-spacing: -0.055em;
-    overflow-wrap: anywhere;
+    text-shadow: 0 5px 28px rgb(8 15 23 / 28%);
   }
 
-  .home-hero h1 span {
+  .immersive-hero h1 span {
     display: block;
   }
 
-  .home-hero__copy > p:not(.eyebrow) {
-    margin: 26px 0;
-    color: var(--color-muted);
+  .immersive-hero__copy > p:not(.eyebrow) {
+    max-width: 610px;
+    margin: 28px 0;
+    color: rgb(255 255 255 / 82%);
     font-size: 1.08rem;
+  }
+
+  .immersive-hero__primary {
+    border-color: var(--showcase-red);
+    background: var(--showcase-red);
+  }
+
+  .immersive-hero__primary:hover {
+    border-color: var(--showcase-red-dark);
+    background: var(--showcase-red-dark);
+  }
+
+  .immersive-hero__secondary {
+    border-color: rgb(255 255 255 / 68%);
+    color: white;
+    background: rgb(31 36 41 / 18%);
+    backdrop-filter: blur(8px);
+  }
+
+  .immersive-hero__secondary:hover {
+    border-color: white;
+    background: rgb(255 255 255 / 14%);
+  }
+
+  .immersive-hero__caption {
+    position: absolute;
+    right: 0;
+    bottom: 24px;
+    left: 0;
+    margin: 0;
+    color: rgb(255 255 255 / 68%);
+    font-size: 0.82rem;
+  }
+
+  .immersive-hero__caption strong {
+    margin-right: 12px;
+    color: white;
+  }
+
+  .homepage-continuation {
+    --home-slate: #405066;
+    --home-paper: #f2f2f2;
+    --color-forest: var(--home-slate);
+    --color-forest-dark: #303d50;
+    --color-accent: #b8322a;
+    --color-warm-gray: var(--home-paper);
+    --color-paper: #ffffff;
+    --color-muted: #5d6771;
+    background: var(--home-paper);
+  }
+
+  .homepage-continuation :global(.placeholder-notice) {
+    border-left-color: var(--color-accent);
+    background: #e7e9ec;
   }
 
   .faq-preview {
@@ -153,16 +243,53 @@ import { siteConfig } from '../data/site';
   }
 
   @media (max-width: 880px) {
-    .home-hero__grid,
     .faq-preview {
       grid-template-columns: 1fr;
     }
+
   }
 
-  @media (max-width: 520px) {
-    .home-hero h1 {
-      font-size: 2.12rem;
-      letter-spacing: -0.035em;
+  @media (max-width: 720px) {
+    .immersive-hero {
+      min-height: 690px;
     }
+
+    .immersive-hero__image {
+      object-position: 43% center;
+    }
+
+    .immersive-hero__overlay {
+      background:
+        linear-gradient(0deg, rgb(22 31 43 / 98%) 0%, rgb(35 48 65 / 88%) 54%, rgb(52 66 85 / 20%) 100%),
+        linear-gradient(90deg, rgb(28 39 53 / 46%), transparent);
+    }
+
+    .immersive-hero__content {
+      justify-content: flex-end;
+      padding-block: 230px 74px;
+    }
+
+    .immersive-hero h1 {
+      font-size: clamp(2.25rem, 10vw, 3.1rem);
+      letter-spacing: -0.045em;
+    }
+
+    .immersive-hero__copy > p:not(.eyebrow) {
+      margin: 22px 0;
+      font-size: 1rem;
+    }
+
+    .immersive-hero__caption {
+      bottom: 16px;
+      padding-right: 8px;
+      font-size: 0.72rem;
+      line-height: 1.5;
+    }
+
+    .immersive-hero__caption strong {
+      display: block;
+      margin-right: 0;
+    }
+
   }
 </style>

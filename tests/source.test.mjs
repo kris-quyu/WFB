@@ -16,7 +16,7 @@ test('site data exposes one product introduction navigation target', () => {
     '/factory/',
     '/equipment/',
     '/quality/',
-    '/#products',
+    '/products/',
     '/applications/',
     '/knowledge/',
   ];
@@ -25,8 +25,9 @@ test('site data exposes one product introduction navigation target', () => {
     assert.match(source, new RegExp(`href:\\s*['\"]${path.replaceAll('/', '\\/')}['\"]`));
   }
 
-  assert.match(source, /label:\s*['"]产品介绍['"]\s*,\s*href:\s*['"]\/#products['"]/);
+  assert.match(source, /label:\s*['"]产品介绍['"]\s*,\s*href:\s*['"]\/products\/['"]/);
   assert.doesNotMatch(source, /href:\s*['"]\/products\/product-[abc]\//);
+  assert.doesNotMatch(source, /href:\s*['"]\/#products['"]/);
 });
 
 test('site data exposes explicit placeholders and no unsupported claims', () => {
@@ -108,13 +109,10 @@ test('layout declares an existing temporary favicon asset', () => {
   assert.match(layout, /rel="icon"[^>]+href="\/images\/nonwoven-production-line\.png"/);
 });
 
-test('mobile layout includes safeguards against horizontal overflow', () => {
+test('global shell includes safeguards against horizontal overflow', () => {
   const globalCss = readFileSync(resolve(root, 'src/styles/global.css'), 'utf8');
-  const home = readFileSync(resolve(root, 'src/pages/index.astro'), 'utf8');
   const header = readFileSync(resolve(root, 'src/components/SiteHeader.astro'), 'utf8');
   assert.match(globalCss, /overflow-x:\s*clip/);
-  assert.match(home, /\.home-hero__grid\s*>\s*\*\s*{[^}]*min-width:\s*0/s);
-  assert.match(home, /overflow-wrap:\s*anywhere/);
   assert.match(header, /\.menu-button\s*{[^}]*flex-shrink:\s*0/s);
 });
 
@@ -125,6 +123,7 @@ test('all requested routes have semantic page sources', () => {
     ['src/pages/factory/index.astro', '工厂实力'],
     ['src/pages/equipment/index.astro', '生产设备'],
     ['src/pages/quality/index.astro', '质量检测'],
+    ['src/pages/products/index.astro', 'ProductShowcase'],
     ['src/pages/products/product-a/index.astro', 'product-a'],
     ['src/pages/products/product-b/index.astro', 'product-b'],
     ['src/pages/products/product-c/index.astro', 'product-c'],
@@ -137,7 +136,7 @@ test('all requested routes have semantic page sources', () => {
     const path = resolve(root, relative);
     assert.equal(existsSync(path), true, `${relative} should exist`);
     const source = readFileSync(path, 'utf8');
-    assert.match(source, /<h1|<PageHero|<ProductDetail/);
+    assert.match(source, /<h1|<PageHero|<ProductDetail|<ProductShowcase/);
     assert.match(source, new RegExp(expected));
   }
 

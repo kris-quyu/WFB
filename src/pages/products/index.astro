@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductShowcase from '../../components/ProductShowcase.astro';
+import PlaceholderNotice from '../../components/PlaceholderNotice.astro';
+import ContactPanel from '../../components/ContactPanel.astro';
+import { siteConfig } from '../../data/site';
+---
+
+<BaseLayout
+  title={`产品介绍｜${siteConfig.shortName}`}
+  description="集中展示企业三类主营无纺布产品、材质、工艺、参数和采购确认事项。所有真实产品信息将在企业核实后发布。"
+  canonicalPath="/products/"
+  breadcrumbs={[
+    { label: '首页', href: '/' },
+    { label: '产品介绍', href: '/products/' },
+  ]}
+>
+  <ProductShowcase />
+  <div class="products-followup">
+    <section class="section">
+      <div class="container"><PlaceholderNotice /></div>
+    </section>
+    <div class="container section"><ContactPanel /></div>
+  </div>
+</BaseLayout>
+
+<style>
+  .products-followup {
+    --color-forest: #405066;
+    --color-forest-dark: #303d50;
+    --color-accent: #b8322a;
+    --color-warm-gray: #f2f2f2;
+    --color-paper: #f2f2f2;
+    background: #f2f2f2;
+  }
+
+  .products-followup :global(.placeholder-notice) {
+    border-left-color: #b8322a;
+    background: #e7e9ec;
+  }
+</style>

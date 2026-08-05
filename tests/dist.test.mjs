@@ -1,11 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const root = resolve(import.meta.dirname, '..');
 const dist = resolve(root, 'dist');
 const htmlFor = (route) => readFileSync(resolve(dist, route, 'index.html'), 'utf8');
+const builtCss = () => readdirSync(resolve(dist, '_astro'))
+  .filter((file) => file.endsWith('.css'))
+  .map((file) => readFileSync(resolve(dist, '_astro', file), 'utf8'))
+  .join('\n');
 
 const routes = [
   '',
@@ -13,6 +17,7 @@ const routes = [
   'factory',
   'equipment',
   'quality',
+  'products',
   'products/product-a',
   'products/product-b',
   'products/product-c',
@@ -52,4 +57,27 @@ test('robots and sitemap are deployment-ready', () => {
   assert.match(robots, /User-agent: \*/);
   assert.match(robots, /Sitemap: https:\/\/www\.example\.com\/sitemap-index\.xml/);
   assert.equal(existsSync(resolve(dist, 'sitemap-index.xml')), true, 'sitemap index should build');
+});
+
+test('homepage links its immersive hero to an accessible product introduction page', () => {
+  const home = htmlFor('');
+  const productsPage = htmlFor('products');
+  assert.match(home, /class="immersive-hero"/);
+  assert.doesNotMatch(home, /class="product-showcase/);
+  assert.match(home, /src="\/images\/nonwoven-production-line\.png"/);
+  assert.match(home, /href="\/products\/"/);
+  assert.match(productsPage, /class="product-showcase/);
+  assert.match(productsPage, /data-product-filter="all"[^>]+aria-pressed="true"/);
+  assert.match(productsPage, /id="product-a"[^>]+data-product-card="product-a"/);
+  assert.match(productsPage, /scrollIntoView/);
+});
+
+test('homepage and product page ship the approved industrial visual treatment', () => {
+  const renderedAssets = `${htmlFor('')}\n${htmlFor('products')}\n${builtCss()}`;
+  assert.match(renderedAssets, /--showcase-red:\s*#b8322a/i);
+  assert.match(renderedAssets, /--showcase-slate:\s*#405066/i);
+  assert.match(renderedAssets, /--home-slate:\s*#405066/i);
+  assert.match(renderedAssets, /--home-paper:\s*#f2f2f2/i);
+  assert.match(renderedAssets, /linear-gradient/);
+  assert.match(renderedAssets, /backdrop-filter/);
 });

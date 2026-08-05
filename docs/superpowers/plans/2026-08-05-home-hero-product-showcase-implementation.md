@@ -2,15 +2,15 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 使用真实设备照片、灰蓝遮罩、砖红强调色和可访问的产品胶囊入口，改造首页首屏与产品展示区。
+**Goal:** 使用真实设备照片改造首页首屏，将产品展示迁移到独立 `/products/` 页面，并统一首页后续区域的灰蓝与暖白配色。
 
-**Architecture:** 首页继续由 `src/pages/index.astro` 组织内容，真实设备照片以语义化 `<img>` 作为首屏背景，产品卡片仍由 `ProductCard.astro` 渲染。产品胶囊按钮通过首页内联脚本维护 `aria-pressed` 和卡片强调状态，不改变产品数据或详情页路由。
+**Architecture:** 首页由 `src/pages/index.astro` 保留沉浸式首屏并移除产品卡片；新建 `ProductShowcase.astro` 负责胶囊入口、产品卡片与交互，再由 `/products/index.astro` 使用。导航和首页 CTA 统一进入 `/products/`，三个产品详情页保持不变。
 
 **Tech Stack:** Astro 7、TypeScript、原生 CSS、原生浏览器 JavaScript、Node.js 内置测试运行器。
 
 ## Global Constraints
 
-- 只修改首页首屏、首页产品展示区及其卡片视觉。
+- 修改首页首屏、首页后续配色、产品导航入口和独立产品介绍页。
 - 只使用 `public/images/nonwoven-production-line.png` 这一张已提供的真实设备照片。
 - 不虚构产品图片、产能、检测、认证、设备型号或性能数据。
 - 保留三个产品详情页和所有 `[待企业确认：…]` 字段。
@@ -18,26 +18,31 @@
 
 ---
 
-### Task 1: 锁定新版首屏与产品区结构
+### Task 1: 锁定独立产品介绍页和导航结构
 
 **Files:**
 - Modify: `tests/dist.test.mjs`
 - Modify: `src/pages/index.astro`
+- Modify: `src/data/site.ts`
+- Create: `src/pages/products/index.astro`
+- Create: `src/components/ProductShowcase.astro`
 - Modify: `src/components/ProductCard.astro`
 
 **Interfaces:**
 - Consumes: `products` 数组、`ProductCard` 的 `product: Product` 属性、真实设备图片路径。
-- Produces: `.immersive-hero`、`.product-showcase`、`.product-filter` 和可定位的产品卡片结构。
+- Produces: 首页 `.immersive-hero`、独立 `/products/`、`.product-showcase`、`.product-filter` 和可定位的产品卡片结构。
 
 - [ ] **Step 1: 写失败测试**
 
-在 `tests/dist.test.mjs` 增加测试，读取构建后的 `dist/index.html` 并断言用户可见结构包含：
+在 `tests/dist.test.mjs` 增加测试，读取构建后的首页和 `/products/`，断言：
 
 ```js
 assert.match(home, /class="immersive-hero"/);
-assert.match(home, /class="product-showcase/);
-assert.match(home, /data-product-filter="all"/);
-assert.match(home, /aria-pressed="true"/);
+assert.doesNotMatch(home, /class="product-showcase/);
+assert.match(home, /href="\/products\/"/);
+assert.match(productsPage, /class="product-showcase/);
+assert.match(productsPage, /data-product-filter="all"/);
+assert.match(productsPage, /aria-pressed="true"/);
 assert.match(home, /nonwoven-production-line\.png/);
 assert.match(home, /id="product-a"[^>]+data-product-card="product-a"/);
 ```
@@ -66,7 +71,7 @@ Expected: FAIL，因为当前首页仍为 `.home-hero` 分栏结构，且没有�
 
 - [ ] **Step 4: 实现产品展示结构**
 
-将产品区域改为 `.product-showcase`，加入四个按钮：
+将产品区域抽取到 `ProductShowcase.astro`，由 `/products/index.astro` 使用，并加入四个按钮：
 
 ```astro
 <button type="button" data-product-filter="all" aria-pressed="true">全部产品</button>
@@ -121,7 +126,7 @@ Expected: FAIL，因为视觉变量和按钮交互尚未实现。
 
 在首页局部样式中定义灰蓝、暖白、砖红变量；首屏图片使用 `object-fit: cover`，叠加左深右浅渐变。产品区使用同图的装饰性模糊背景和高透明度遮罩，卡片为浅色半透明底。
 
-在首页加入内联脚本：点击按钮时更新全部按钮的 `aria-pressed`；点击具体产品时设置对应卡片 `.is-highlighted` 并使用 `scrollIntoView({ behavior: 'smooth', block: 'center' })`；点击“全部产品”时清除卡片强调。
+在 `ProductShowcase.astro` 加入内联脚本：点击按钮时更新全部按钮的 `aria-pressed`；点击具体产品时设置对应卡片 `.is-highlighted` 并使用 `scrollIntoView({ behavior: 'smooth', block: 'center' })`；点击“全部产品”时清除卡片强调。
 
 - [ ] **Step 4: 实现手机端规则**
 
@@ -146,6 +151,6 @@ Expected: 12 个测试全部通过。
 - [ ] **Step 6: 提交**
 
 ```text
-git add src/pages/index.astro src/components/ProductCard.astro tests/source.test.mjs docs/superpowers/plans/2026-08-05-home-hero-product-showcase-implementation.md design-qa.md
-git commit -m "feat: redesign homepage hero and product showcase"
+git add src/pages/index.astro src/pages/products/index.astro src/components/ProductShowcase.astro src/components/ProductCard.astro src/data/site.ts tests/source.test.mjs tests/dist.test.mjs docs/superpowers/plans/2026-08-05-home-hero-product-showcase-implementation.md design-qa.md
+git commit -m "feat: add immersive hero and product introduction page"
 ```

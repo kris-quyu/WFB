@@ -59,25 +59,41 @@ test('robots and sitemap are deployment-ready', () => {
   assert.equal(existsSync(resolve(dist, 'sitemap-index.xml')), true, 'sitemap index should build');
 });
 
-test('homepage links its immersive hero to an accessible product introduction page', () => {
+test('homepage contains one essential hero followed directly by the footer', () => {
   const home = htmlFor('');
   const productsPage = htmlFor('products');
   assert.match(home, /class="immersive-hero"/);
+  assert.equal((home.match(/<section\b/g) ?? []).length, 1, 'homepage should render one content section');
+  assert.match(home, /<\/section>\s*<\/main>\s*<footer\b/);
   assert.doesNotMatch(home, /class="product-showcase/);
   assert.match(home, /src="\/images\/nonwoven-production-line\.png"/);
-  assert.match(home, /href="\/products\/"/);
+  assert.doesNotMatch(home, /class="button-row"|class="immersive-hero__caption"|class="homepage-continuation"/);
+  assert.doesNotMatch(home, /能力证据|应用场景|常见问题|资料状态说明|询价准备/);
   assert.match(productsPage, /class="product-showcase/);
   assert.match(productsPage, /data-product-filter="all"[^>]+aria-pressed="true"/);
   assert.match(productsPage, /id="product-a"[^>]+data-product-card="product-a"/);
   assert.match(productsPage, /scrollIntoView/);
 });
 
-test('homepage and product page ship the approved industrial visual treatment', () => {
-  const renderedAssets = `${htmlFor('')}\n${htmlFor('products')}\n${builtCss()}`;
+test('interior routes retain applications, knowledge, status, and inquiry content', () => {
+  assert.match(htmlFor('applications'), /应用场景/);
+  assert.match(htmlFor('knowledge'), /常见问题|FAQ/);
+  assert.match(htmlFor('products'), /资料状态说明/);
+  assert.match(htmlFor('products'), /询价准备/);
+});
+
+test('site ships the gray-blue palette and native continuous scrolling', () => {
+  const renderedAssets = `${htmlFor('')}\n${htmlFor('products')}\n${builtCss()}`.toLowerCase();
   assert.match(renderedAssets, /--showcase-red:\s*#b8322a/i);
   assert.match(renderedAssets, /--showcase-slate:\s*#405066/i);
-  assert.match(renderedAssets, /--home-slate:\s*#405066/i);
-  assert.match(renderedAssets, /--home-paper:\s*#f2f2f2/i);
+  assert.match(renderedAssets, /--color-forest:\s*#405066/i);
+  assert.match(renderedAssets, /--color-warm-gray:\s*#f2f2f2/i);
+  assert.match(renderedAssets, /--color-accent:\s*#b8322a/i);
+  assert.doesNotMatch(renderedAssets, /#174d3b|#0d3529|#d2a72d/);
+  assert.match(renderedAssets, /scroll-behavior:\s*smooth/);
+  assert.match(renderedAssets, /prefers-reduced-motion/);
+  assert.match(renderedAssets, /scroll-behavior:\s*auto/);
+  assert.doesNotMatch(renderedAssets, /scroll-snap-type/);
   assert.match(renderedAssets, /linear-gradient/);
-  assert.match(renderedAssets, /backdrop-filter/);
+  assert.match(htmlFor(''), /<meta name="theme-color" content="#405066"/i);
 });

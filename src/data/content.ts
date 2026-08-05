@@ -1,10 +1,3 @@
-export interface EquipmentItem {
-  name: string;
-  purpose: string;
-  model: string;
-  count: string;
-}
-
 export interface ApplicationItem {
   name: string;
   focus: string;
@@ -25,28 +18,13 @@ export interface KnowledgeArticle {
   updatedAt: string;
 }
 
-export const equipmentItems: EquipmentItem[] = [
-  {
-    name: '[待企业确认：设备真实名称]',
-    purpose: '现场照片显示该设备用于无纺布材料连续加工与收卷，具体工艺作用需企业确认。',
-    model: '[待企业确认：设备型号]',
-    count: '[待企业确认：设备数量]',
-  },
-  {
-    name: '[待企业确认：辅助设备名称]',
-    purpose: '[待企业确认：辅助设备用途]',
-    model: '[待企业确认：辅助设备型号]',
-    count: '[待企业确认：辅助设备数量]',
-  },
-];
-
 export const applications: ApplicationItem[] = [
-  { name: '包装与防护', focus: '克重、强度、外观与包装方式', candidateProduct: '[待企业确认：对应产品]', inquiryInput: '被包装物、使用方式和尺寸' },
-  { name: '家具与家居', focus: '材质、手感、颜色与尺寸稳定性', candidateProduct: '[待企业确认：对应产品]', inquiryInput: '具体部位、加工方式和目标规格' },
-  { name: '农业与园艺', focus: '使用环境、透气性、耐候需求与铺设方式', candidateProduct: '[待企业确认：对应产品]', inquiryInput: '使用地区、周期和覆盖方式' },
-  { name: '过滤与工业', focus: '过滤对象、粒径、阻力与温湿度条件', candidateProduct: '[待企业确认：对应产品]', inquiryInput: '介质、工况和目标指标' },
-  { name: '一次性用品', focus: '接触用途、柔软度、卫生与合规要求', candidateProduct: '[待企业确认：对应产品]', inquiryInput: '产品用途、执行标准和加工方式' },
-  { name: '其他定制用途', focus: '材料、克重、幅宽、颜色和后加工要求', candidateProduct: '[待企业确认：对应产品]', inquiryInput: '样品、图纸或完整规格表' },
+  { name: '包装与防护', focus: '根据被包装物和加工方式确认克重、幅宽、颜色与外观', candidateProduct: '无纺布、针刺布', inquiryInput: '被包装物、使用方式、尺寸和数量' },
+  { name: '家具与家居', focus: '结合使用部位讨论手感、厚度、颜色和后续加工', candidateProduct: '无纺布、针刺布', inquiryInput: '具体部位、加工方式和目标规格' },
+  { name: '过滤与工业', focus: '根据过滤对象、介质和工况确认材料与结构要求', candidateProduct: '针刺布、无纺布', inquiryInput: '介质、工况、目标指标和执行标准' },
+  { name: '工程铺设', focus: '结合隔离、过滤、排水或防护用途核对工程要求', candidateProduct: '土工布', inquiryInput: '铺设位置、土体条件、设计指标和工程数量' },
+  { name: '农业与覆盖', focus: '根据使用地区、周期和铺设方式确认透气与耐候需求', candidateProduct: '无纺布', inquiryInput: '使用地区、覆盖对象、周期和尺寸' },
+  { name: '其他加工用途', focus: '从样品或图纸出发确认材质、克重、幅宽和后加工要求', candidateProduct: '无纺布、针刺布、土工布', inquiryInput: '样品、图片、图纸或完整规格表' },
 ];
 
 export const faqItems: FaqItem[] = [
@@ -62,7 +40,7 @@ export const knowledgeArticles: KnowledgeArticle[] = [
   {
     slug: 'nonwoven-procurement-checklist',
     title: '无纺布采购前需要确认哪些信息？',
-    summary: '从用途、材料、克重、幅宽、包装到质量要求，整理一份可直接用于询价的基础清单。',
+    summary: '从用途、材料、克重、幅宽、包装到执行要求，整理无纺布、针刺布与土工布询价前需要确认的基础信息。',
     publishedAt: '2026-08-04',
     updatedAt: '2026-08-04',
   },

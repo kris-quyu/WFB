@@ -4,12 +4,12 @@ import ProductCard from '../components/ProductCard.astro';
 import PhotoEvidence from '../components/PhotoEvidence.astro';
 import { siteConfig } from '../data/site';
 import { products } from '../data/products';
-import { applications, equipmentItems, faqItems, knowledgeArticles } from '../data/content';
+import { applications, faqItems, knowledgeArticles } from '../data/content';
 ---
 
 <BaseLayout
-  title={`无纺布产品与生产资料｜${siteConfig.shortName}`}
-  description="传统小型无纺布生产企业官网建设版本，连续展示企业介绍、产品、工厂、设备、应用与采购知识，所有未核实资料均明确标注。"
+  title={`广州无纺布、针刺布与土工布｜${siteConfig.companyName}`}
+  description="广州市天瑞无纺布有限公司成立于2004年，展示无纺布、针刺布、土工布实际产品照片、常见用途与采购确认信息。"
 >
   <section class="immersive-hero" data-scroll-section="home">
     <img
@@ -24,7 +24,7 @@ import { applications, equipmentItems, faqItems, knowledgeArticles } from '../da
     <div class="container immersive-hero__content">
       <div class="immersive-hero__copy">
         <p class="eyebrow">NONWOVEN MANUFACTURING</p>
-        <h1><span>专注无纺布产品</span><span>生产与供应</span></h1>
+        <h1><span>广州无纺布、针刺布</span><span>与土工布生产供应</span></h1>
         <p>{siteConfig.description}</p>
       </div>
     </div>
@@ -40,7 +40,7 @@ import { applications, equipmentItems, faqItems, knowledgeArticles } from '../da
       <div class="evidence-panel">
         <p class="evidence-panel__label">资料原则</p>
         <h3>能核实的再公开，不能确认的不包装</h3>
-        <p>企业名称、成立时间、地址与经营资料将在上线前逐项核实；当前缺失字段均保留明确占位。</p>
+        <p>企业成立于2004年，注册地址与实际工厂地址均位于广州市白云区。产品具体规格和供货要求以沟通确认为准。</p>
         <a class="section-link" href="/about/">查看企业介绍详情</a>
       </div>
     </div>
@@ -51,7 +51,7 @@ import { applications, equipmentItems, faqItems, knowledgeArticles } from '../da
       <div class="section-heading">
         <p class="section-heading__eyebrow">PRODUCTS</p>
         <h2>产品中心</h2>
-        <p>先展示三类主营产品入口，真实产品名称、材质、工艺与规格由企业资料替换。</p>
+        <p>三类主营产品均使用企业提供的实际照片展示；材质、克重、幅宽和包装等具体规格需结合订单确认。</p>
       </div>
       <div class="grid grid--3 product-grid">
         {products.map((product) => <ProductCard product={product} />)}
@@ -70,8 +70,8 @@ import { applications, equipmentItems, faqItems, knowledgeArticles } from '../da
         </div>
         <ul class="fact-list compact-facts">
           <li><strong>生产现场</strong>已提供一张无纺布生产线真实照片</li>
+          <li><strong>成立时间</strong>2004年6月1日</li>
           <li><strong>工厂地址</strong>{siteConfig.factoryAddress}</li>
-          <li><strong>规模资料</strong>[待企业确认：厂房、人员与生产线情况]</li>
         </ul>
         <a class="section-link section-link--standalone" href="/factory/">查看工厂资料详情</a>
       </div>
@@ -89,17 +89,11 @@ import { applications, equipmentItems, faqItems, knowledgeArticles } from '../da
       <div class="section-heading section-heading--light">
         <p class="section-heading__eyebrow">EQUIPMENT</p>
         <h2>生产设备</h2>
-        <p>设备内容只记录现场可见信息，型号、数量与具体用途等待企业核对。</p>
+        <p>工厂配备无纺布加工、成卷及相关辅助设备，用于日常生产与产品整理。具体工艺能力以产品规格和订单沟通为准。</p>
       </div>
-      <div class="grid grid--2 equipment-grid">
-        {equipmentItems.map((item, index) => (
-          <article class="equipment-card">
-            <span>0{index + 1}</span>
-            <h3>{item.name}</h3>
-            <p>{item.purpose}</p>
-            <dl><div><dt>型号</dt><dd>{item.model}</dd></div><div><dt>数量</dt><dd>{item.count}</dd></div></dl>
-          </article>
-        ))}
+      <div class="equipment-summary">
+        <img src="/images/nonwoven-production-line.png" alt="天瑞无纺布生产线与白色卷材现场" width="1680" height="945" loading="lazy" />
+        <p>现场照片用于说明实际生产环境。设备品牌、型号、数量、产能和性能不作为网站公开承诺。</p>
       </div>
       <a class="section-link section-link--light section-link--standalone" href="/equipment/">查看生产设备详情</a>
     </div>
@@ -190,13 +184,9 @@ import { applications, equipmentItems, faqItems, knowledgeArticles } from '../da
   .factory-layout :global(.photo-evidence) { min-width: 0; }
   .section-heading--light h2, .section-heading--light p { color: white; }
   .section-heading--light .section-heading__eyebrow { color: #efaaa5; }
-  .equipment-card { padding: 30px; border: 1px solid rgb(255 255 255 / 22%); background: rgb(255 255 255 / 7%); }
-  .equipment-card > span { color: #efaaa5; font-weight: 900; letter-spacing: .14em; }
-  .equipment-card h3 { margin: 12px 0; font-size: 1.3rem; }
-  .equipment-card p { color: rgb(255 255 255 / 76%); }
-  .equipment-card dl { margin: 20px 0 0; }
-  .equipment-card dl div { display: grid; grid-template-columns: 64px 1fr; gap: 12px; padding: 10px 0; border-top: 1px solid rgb(255 255 255 / 16%); }
-  .equipment-card dd { margin: 0; }
+  .equipment-summary { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(260px, .7fr); align-items: stretch; border: 1px solid rgb(255 255 255 / 22%); background: rgb(255 255 255 / 7%); }
+  .equipment-summary img { width: 100%; height: 100%; min-height: 280px; object-fit: cover; }
+  .equipment-summary p { display: flex; align-items: center; margin: 0; padding: clamp(28px, 5vw, 54px); color: rgb(255 255 255 / 78%); }
   .application-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--color-line); border-left: 1px solid var(--color-line); }
   .application-item { min-height: 210px; padding: 28px; border-right: 1px solid var(--color-line); border-bottom: 1px solid var(--color-line); background: var(--color-paper); }
   .application-item h3 { margin: 0 0 12px; }
@@ -210,6 +200,7 @@ import { applications, equipmentItems, faqItems, knowledgeArticles } from '../da
   @media (max-width: 900px) {
     .split-layout, .factory-layout, .knowledge-layout { grid-template-columns: 1fr; }
     .application-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .equipment-summary { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 720px) {

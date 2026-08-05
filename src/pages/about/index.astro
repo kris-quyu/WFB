@@ -8,13 +8,13 @@ import { siteConfig } from '../../data/site';
 const crumbs = [{ label: '首页', href: '/' }, { label: '企业介绍', href: '/about/' }];
 ---
 
-<BaseLayout title={`企业介绍｜${siteConfig.shortName}`} description="了解企业主体、经营范围、工厂地址和主营产品。所有待确认资料将在企业核实后更新。" canonicalPath="/about/" breadcrumbs={crumbs}>
-  <PageHero eyebrow="关于企业" title="企业介绍" description="先把企业主体和经营边界讲清楚，再谈产品与合作。" breadcrumbs={crumbs} />
+<BaseLayout title={`企业介绍｜${siteConfig.shortName}`} description="了解广州市天瑞无纺布有限公司的成立时间、企业地址、经营范围和无纺布、针刺布、土工布产品。" canonicalPath="/about/" breadcrumbs={crumbs}>
+  <PageHero eyebrow="关于企业" title="企业介绍" description="成立于2004年的广州无纺布生产企业，以真实主体、产品照片和采购信息介绍企业。" breadcrumbs={crumbs} />
   <section class="section"><div class="container grid grid--2">
-    <div><div class="section-heading"><p class="section-heading__eyebrow">企业概况</p><h2>一家传统小型制造企业</h2></div><p>{siteConfig.description}</p><p>网站不使用未经确认的规模、荣誉或客户数据。企业资料齐备后，将按工商和实际经营信息逐项更新。</p></div>
-    <dl class="card fact-list"><div><dt>企业名称</dt><dd>{siteConfig.companyName}</dd></div><div><dt>成立时间</dt><dd>{siteConfig.foundedAt}</dd></div><div><dt>注册地址</dt><dd>{siteConfig.registeredAddress}</dd></div><div><dt>工厂地址</dt><dd>{siteConfig.factoryAddress}</dd></div></dl>
+    <div><div class="section-heading"><p class="section-heading__eyebrow">企业概况</p><h2>扎根广州的传统制造企业</h2></div><p>{siteConfig.description}</p><p>网站以营业执照资料、实际生产现场和真实产品照片为基础，不使用未经确认的规模、荣誉、认证或客户数据。</p></div>
+    <dl class="card fact-list"><div><dt>企业名称</dt><dd>{siteConfig.companyName}</dd></div><div><dt>成立日期</dt><dd>2004年6月1日</dd></div><div><dt>信用代码</dt><dd>{siteConfig.creditCode}</dd></div><div><dt>企业类型</dt><dd>{siteConfig.companyType}</dd></div><div><dt>注册地址</dt><dd>{siteConfig.registeredAddress}</dd></div><div><dt>工厂地址</dt><dd>{siteConfig.factoryAddress}</dd></div><div><dt>联系电话</dt><dd><a href={`tel:${siteConfig.phone}`}>{siteConfig.phone}</a></dd></div></dl>
   </div></section>
-  <section class="section section--warm"><div class="container grid grid--3"><article class="card"><h2>主营范围</h2><p>[待企业确认：工商经营范围与实际主营产品]</p></article><article class="card"><h2>服务方式</h2><p>[待企业确认：来样、来图、规格定制与合作流程]</p></article><article class="card"><h2>主要市场</h2><p>[待企业确认：主要销售地区与客户类型]</p></article></div></section>
+  <section class="section section--warm"><div class="container grid grid--3"><article class="card"><h2>登记经营范围</h2><p>纺织服装、服饰业；具体经营项目以登记机关公开信息为准。</p></article><article class="card"><h2>主营产品</h2><p>无纺布、针刺布与土工布。具体材质、规格和包装以产品资料及询价确认为准。</p></article><article class="card"><h2>沟通方式</h2><p>可通过电话或微信说明产品用途、规格、数量和收货地点，再确认是否适合生产供应。</p></article></div></section>
   <section class="section"><div class="container"><PlaceholderNotice /></div></section>
   <div class="container section"><ContactPanel /></div>
 </BaseLayout>

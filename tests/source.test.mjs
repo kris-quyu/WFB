@@ -10,24 +10,15 @@ const siteDataPath = resolve(root, 'src/data/site.ts');
 test('site data exposes one product introduction navigation target', () => {
   assert.equal(existsSync(siteDataPath), true, 'src/data/site.ts should exist');
   const source = readFileSync(siteDataPath, 'utf8');
-  const expectedPaths = [
-    '/',
-    '/about/',
-    '/products/',
-    '/factory/',
-    '/equipment/',
-    '/applications/',
-    '/knowledge/',
-  ];
+  const expectedPaths = ['/', '/#about', '/#products', '/#factory', '/#equipment', '/#applications', '/#knowledge'];
 
   for (const path of expectedPaths) {
     assert.match(source, new RegExp(`href:\\s*['\"]${path.replaceAll('/', '\\/')}['\"]`));
   }
 
-  assert.match(source, /label:\s*['"]产品中心['"]\s*,\s*href:\s*['"]\/products\/['"]/);
+  assert.match(source, /label:\s*['"]产品中心['"]\s*,\s*href:\s*['"]\/#products['"]/);
   assert.doesNotMatch(source, /质量检测|\/quality\//);
   assert.doesNotMatch(source, /href:\s*['"]\/products\/product-[abc]\//);
-  assert.doesNotMatch(source, /href:\s*['"]\/#products['"]/);
 });
 
 test('site data exposes explicit placeholders and no unsupported claims', () => {

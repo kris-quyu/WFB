@@ -44,9 +44,12 @@ test('static build contains all routes and unique metadata', () => {
 
 test('navigation follows the simplified small-enterprise information architecture', () => {
   const home = htmlFor('');
-  const labels = [...home.matchAll(/<nav\b[\s\S]*?<\/nav>/g)]
-    .flatMap((match) => [...match[0].matchAll(/<a\b[^>]*>([^<]+)<\/a>/g)].map((item) => item[1].trim()));
+  const navigation = home.match(/<nav\b[\s\S]*?<\/nav>/)?.[0] ?? '';
+  const labels = [...navigation.matchAll(/<a\b[^>]*>([^<]+)<\/a>/g)].map((item) => item[1].trim());
   assert.deepEqual(labels, ['首页', '关于我们', '产品中心', '工厂实力', '生产设备', '应用领域', '知识中心']);
+  for (const target of ['#about', '#products', '#factory', '#equipment', '#applications', '#knowledge']) {
+    assert.match(navigation, new RegExp(`href="\/${target}"`));
+  }
   assert.doesNotMatch(home, /href="\/quality\/"|质量检测/);
 });
 
@@ -67,17 +70,18 @@ test('robots and sitemap are deployment-ready', () => {
   assert.equal(existsSync(resolve(dist, 'sitemap-index.xml')), true, 'sitemap index should build');
 });
 
-test('homepage contains one essential hero followed directly by the footer', () => {
+test('homepage presents every primary module as one continuous document', () => {
   const home = htmlFor('');
   const main = home.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1] ?? '';
   const productsPage = htmlFor('products');
   assert.match(main, /class="immersive-hero"/);
-  assert.equal((main.match(/<section\b/g) ?? []).length, 1, 'homepage should render one content section');
-  assert.match(home, /<\/section>\s*<\/main>\s*<footer\b/);
+  assert.equal((main.match(/<section\b/g) ?? []).length, 7, 'homepage should render the hero plus six modules');
+  const ids = [...main.matchAll(/<section\b[^>]*id="([^"]+)"/g)].map((match) => match[1]);
+  assert.deepEqual(ids, ['about', 'products', 'factory', 'equipment', 'applications', 'knowledge']);
   assert.doesNotMatch(main, /class="product-showcase/);
   assert.match(main, /src="\/images\/nonwoven-production-line\.png"/);
-  assert.doesNotMatch(main, /class="button-row"|class="immersive-hero__caption"|class="homepage-continuation"/);
-  assert.doesNotMatch(main, /能力证据|应用场景|常见问题|资料状态说明|询价准备/);
+  assert.match(main, /关于我们|产品中心|工厂实力|生产设备|应用领域|知识中心/);
+  assert.doesNotMatch(main, /质量检测|质量流程/);
   assert.match(productsPage, /class="product-showcase/);
   assert.match(productsPage, /data-product-filter="all"[^>]+aria-pressed="true"/);
   assert.match(productsPage, /id="product-a"[^>]+data-product-card="product-a"/);

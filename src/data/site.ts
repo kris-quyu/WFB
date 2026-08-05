@@ -12,17 +12,17 @@ export const siteConfig = {
   email: '[待企业确认：企业邮箱]',
   icpNumber: '[待企业确认：ICP备案号]',
   description:
-    '我们是一家传统小型无纺布生产企业，网站中的企业、产品和质量信息将在企业核实后公开。',
+    '我们是一家传统小型无纺布生产企业，网站中的企业与产品信息将在企业核实后公开。',
 } as const;
 
 export const navigation = [
   { label: '首页', href: '/' },
-  { label: '关于我们', href: '/about/' },
-  { label: '产品中心', href: '/products/' },
-  { label: '工厂实力', href: '/factory/' },
-  { label: '生产设备', href: '/equipment/' },
-  { label: '应用领域', href: '/applications/' },
-  { label: '知识中心', href: '/knowledge/' },
+  { label: '关于我们', href: '/#about' },
+  { label: '产品中心', href: '/#products' },
+  { label: '工厂实力', href: '/#factory' },
+  { label: '生产设备', href: '/#equipment' },
+  { label: '应用领域', href: '/#applications' },
+  { label: '知识中心', href: '/#knowledge' },
 ] as const;
 
 export function isConfirmedValue(value: string): boolean {

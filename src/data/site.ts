@@ -17,13 +17,12 @@ export const siteConfig = {
 
 export const navigation = [
   { label: '首页', href: '/' },
-  { label: '企业介绍', href: '/about/' },
+  { label: '关于我们', href: '/about/' },
+  { label: '产品中心', href: '/products/' },
   { label: '工厂实力', href: '/factory/' },
   { label: '生产设备', href: '/equipment/' },
-  { label: '质量检测', href: '/quality/' },
-  { label: '产品介绍', href: '/products/' },
-  { label: '应用场景', href: '/applications/' },
-  { label: 'FAQ / 知识库', href: '/knowledge/' },
+  { label: '应用领域', href: '/applications/' },
+  { label: '知识中心', href: '/knowledge/' },
 ] as const;
 
 export function isConfirmedValue(value: string): boolean {

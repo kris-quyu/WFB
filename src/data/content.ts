@@ -40,13 +40,6 @@ export const equipmentItems: EquipmentItem[] = [
   },
 ];
 
-export const qualitySteps = [
-  { title: '来料确认', description: '记录原料名称、批次与随附资料；企业实际检查项目待确认。' },
-  { title: '过程检查', description: '记录生产过程中的规格与外观状态；检查频次待企业确认。' },
-  { title: '成品检查', description: '按订单要求核对成品规格、包装和标识；具体指标待确认。' },
-  { title: '留样与记录', description: '是否留样、保存多久及记录方式由企业提供真实流程。' },
-];
-
 export const applications: ApplicationItem[] = [
   { name: '包装与防护', focus: '克重、强度、外观与包装方式', candidateProduct: '[待企业确认：对应产品]', inquiryInput: '被包装物、使用方式和尺寸' },
   { name: '家具与家居', focus: '材质、手感、颜色与尺寸稳定性', candidateProduct: '[待企业确认：对应产品]', inquiryInput: '具体部位、加工方式和目标规格' },

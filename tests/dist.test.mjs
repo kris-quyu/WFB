@@ -16,7 +16,6 @@ const routes = [
   'about',
   'factory',
   'equipment',
-  'quality',
   'products',
   'products/product-a',
   'products/product-b',
@@ -40,6 +39,15 @@ test('static build contains all routes and unique metadata', () => {
     assert.match(html, /<link rel="canonical" href="https:\/\/www\.example\.com\/[^"]*"/);
   }
   assert.equal(titles.size, routes.length, 'every route should have a unique title');
+  assert.equal(existsSync(resolve(dist, 'quality', 'index.html')), false, 'quality route should be removed');
+});
+
+test('navigation follows the simplified small-enterprise information architecture', () => {
+  const home = htmlFor('');
+  const labels = [...home.matchAll(/<nav\b[\s\S]*?<\/nav>/g)]
+    .flatMap((match) => [...match[0].matchAll(/<a\b[^>]*>([^<]+)<\/a>/g)].map((item) => item[1].trim()));
+  assert.deepEqual(labels, ['首页', '关于我们', '产品中心', '工厂实力', '生产设备', '应用领域', '知识中心']);
+  assert.doesNotMatch(home, /href="\/quality\/"|质量检测/);
 });
 
 test('structured data matches page intent', () => {

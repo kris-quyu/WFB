@@ -13,10 +13,9 @@ test('site data exposes one product introduction navigation target', () => {
   const expectedPaths = [
     '/',
     '/about/',
+    '/products/',
     '/factory/',
     '/equipment/',
-    '/quality/',
-    '/products/',
     '/applications/',
     '/knowledge/',
   ];
@@ -25,7 +24,8 @@ test('site data exposes one product introduction navigation target', () => {
     assert.match(source, new RegExp(`href:\\s*['\"]${path.replaceAll('/', '\\/')}['\"]`));
   }
 
-  assert.match(source, /label:\s*['"]产品介绍['"]\s*,\s*href:\s*['"]\/products\/['"]/);
+  assert.match(source, /label:\s*['"]产品中心['"]\s*,\s*href:\s*['"]\/products\/['"]/);
+  assert.doesNotMatch(source, /质量检测|\/quality\//);
   assert.doesNotMatch(source, /href:\s*['"]\/products\/product-[abc]\//);
   assert.doesNotMatch(source, /href:\s*['"]\/#products['"]/);
 });
@@ -122,7 +122,6 @@ test('all requested routes have semantic page sources', () => {
     ['src/pages/about/index.astro', '企业介绍'],
     ['src/pages/factory/index.astro', '工厂实力'],
     ['src/pages/equipment/index.astro', '生产设备'],
-    ['src/pages/quality/index.astro', '质量检测'],
     ['src/pages/products/index.astro', 'ProductShowcase'],
     ['src/pages/products/product-a/index.astro', 'product-a'],
     ['src/pages/products/product-b/index.astro', 'product-b'],
@@ -142,9 +141,7 @@ test('all requested routes have semantic page sources', () => {
 
   const home = readFileSync(resolve(root, 'src/pages/index.astro'), 'utf8');
   const equipment = readFileSync(resolve(root, 'src/pages/equipment/index.astro'), 'utf8');
-  const quality = readFileSync(resolve(root, 'src/pages/quality/index.astro'), 'utf8');
   assert.match(home, /nonwoven-production-line\.png/);
   assert.match(equipment, /现场照片/);
-  assert.match(quality, /通用流程/);
-  assert.match(quality, /待企业确认/);
+  assert.equal(existsSync(resolve(root, 'src/pages/quality/index.astro')), false);
 });

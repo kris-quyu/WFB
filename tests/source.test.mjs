@@ -21,13 +21,35 @@ test('site data exposes one product introduction navigation target', () => {
   assert.doesNotMatch(source, /href:\s*['"]\/products\/product-[abc]\//);
 });
 
-test('site data exposes explicit placeholders and no unsupported claims', () => {
+test('site data exposes verified Tianrui identity and no unsupported claims', () => {
   assert.equal(existsSync(siteDataPath), true, 'src/data/site.ts should exist');
   const source = readFileSync(siteDataPath, 'utf8');
 
-  assert.match(source, /\[待企业确认：企业法定名称\]/);
+  for (const value of [
+    '广州市天瑞无纺布有限公司',
+    '天瑞无纺布',
+    '2004-06-01',
+    '914401017619348288',
+    '13822292512',
+    '广州市白云区良田镇光明村冯坎路29号之一',
+  ]) {
+    assert.match(source, new RegExp(value));
+  }
+  assert.doesNotMatch(source, /email\s*:/);
   assert.match(source, /https:\/\/www\.example\.com/);
   assert.doesNotMatch(source, /行业领先|全球领先|年产\s*\d|通过\s*ISO/);
+});
+
+test('verified product and WeChat image assets are present', () => {
+  for (const file of [
+    'wechat-contact.jpg',
+    'product-nonwoven.png',
+    'product-needle-punched-fabric.png',
+    'product-geotextile.png',
+  ]) {
+    const path = resolve(root, 'public/images', file);
+    assert.equal(existsSync(path), true, `${file} should exist`);
+  }
 });
 
 test('industrial design shell and supplied production photo are present', () => {
@@ -68,6 +90,12 @@ test('product and evidence content cover real procurement decisions', () => {
   }
   for (const field of ['material', 'process', 'specifications', 'applications', 'purchaseChecklist']) {
     assert.match(products, new RegExp(`${field}:`));
+  }
+  for (const productName of ['无纺布', '针刺布', '土工布']) {
+    assert.match(products, new RegExp(productName));
+  }
+  for (const image of ['product-nonwoven.png', 'product-needle-punched-fabric.png', 'product-geotextile.png']) {
+    assert.match(products, new RegExp(image.replace('.', '\\.')));
   }
   for (const topic of ['MOQ', '打样', '交期', '包装', '运输', '定制']) {
     assert.match(content, new RegExp(topic));

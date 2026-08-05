@@ -95,6 +95,41 @@ test('interior routes retain applications, knowledge, status, and inquiry conten
   assert.match(htmlFor('products'), /询价准备/);
 });
 
+test('rendered site publishes verified Tianrui identity and phone without email', () => {
+  const rendered = [htmlFor(''), htmlFor('about'), htmlFor('products'), htmlFor('equipment')].join('\n');
+  for (const value of [
+    '广州市天瑞无纺布有限公司',
+    '2004-06-01',
+    '914401017619348288',
+    '广州市白云区良田镇光明村冯坎路29号之一',
+  ]) {
+    assert.match(rendered, new RegExp(value));
+  }
+  assert.match(rendered, /href="tel:13822292512"/);
+  assert.doesNotMatch(rendered, /mailto:|邮箱/);
+});
+
+test('rendered site exposes three verified products with real photographs', () => {
+  const home = htmlFor('');
+  const productPages = [htmlFor('products/product-a'), htmlFor('products/product-b'), htmlFor('products/product-c')].join('\n');
+  for (const productName of ['无纺布', '针刺布', '土工布']) {
+    assert.match(`${home}\n${productPages}`, new RegExp(productName));
+  }
+  for (const image of ['product-nonwoven.png', 'product-needle-punched-fabric.png', 'product-geotextile.png']) {
+    assert.match(`${home}\n${productPages}`, new RegExp(`/images/${image.replace('.', '\\.')}`));
+  }
+});
+
+test('WeChat contact is accessible and equipment copy stays concise', () => {
+  const home = htmlFor('');
+  const equipment = htmlFor('equipment');
+  assert.match(home, /aria-haspopup="dialog"/);
+  assert.match(home, /<dialog[^>]+id="wechat-contact-dialog"[^>]+aria-labelledby="wechat-dialog-title"/);
+  assert.match(home, /src="\/images\/wechat-contact\.jpg"/);
+  assert.match(home, /微信咨询|扫码添加好友/);
+  assert.doesNotMatch(equipment, /设备型号|设备数量/);
+});
+
 test('site ships the gray-blue palette and native continuous scrolling', () => {
   const renderedAssets = `${htmlFor('')}\n${htmlFor('products')}\n${builtCss()}`.toLowerCase();
   assert.match(renderedAssets, /--showcase-red:\s*#b8322a/i);

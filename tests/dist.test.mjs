@@ -120,13 +120,16 @@ test('rendered site exposes three verified products with real photographs', () =
   }
 });
 
-test('WeChat contact is accessible and equipment copy stays concise', () => {
+test('WeChat contact is accessible', () => {
   const home = htmlFor('');
-  const equipment = htmlFor('equipment');
   assert.match(home, /aria-haspopup="dialog"/);
   assert.match(home, /<dialog[^>]+id="wechat-contact-dialog"[^>]+aria-labelledby="wechat-dialog-title"/);
   assert.match(home, /src="\/images\/wechat-contact\.jpg"/);
   assert.match(home, /微信咨询|扫码添加好友/);
+});
+
+test('equipment copy stays concise', () => {
+  const equipment = htmlFor('equipment');
   assert.doesNotMatch(equipment, /设备型号|设备数量/);
 });
 

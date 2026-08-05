@@ -2,17 +2,19 @@ export const PLACEHOLDER_PREFIX = '[待企业确认：';
 
 export const siteConfig = {
   siteUrl: 'https://www.example.com/',
-  companyName: '[待企业确认：企业法定名称]',
-  shortName: '[待企业确认：企业简称]',
-  tagline: '专注无纺布产品的生产与供应',
-  foundedAt: '[待企业确认：成立时间]',
-  registeredAddress: '[待企业确认：注册地址]',
-  factoryAddress: '[待企业确认：工厂地址]',
-  phone: '[待企业确认：联系电话]',
-  email: '[待企业确认：企业邮箱]',
+  companyName: '广州市天瑞无纺布有限公司',
+  shortName: '天瑞无纺布',
+  tagline: '广州无纺布、针刺布与土工布生产供应',
+  foundedAt: '2004-06-01',
+  creditCode: '914401017619348288',
+  companyType: '有限责任公司（自然人投资或控股）',
+  registeredAddress: '广州市白云区良田镇光明村冯坎路29号之一',
+  factoryAddress: '广州市白云区良田镇光明村冯坎路29号之一',
+  phone: '13822292512',
+  wechatQrImage: '/images/wechat-contact.jpg',
   icpNumber: '[待企业确认：ICP备案号]',
   description:
-    '我们是一家传统小型无纺布生产企业，网站中的企业与产品信息将在企业核实后公开。',
+    '广州市天瑞无纺布有限公司成立于2004年，主要提供无纺布、针刺布与土工布产品，具体规格与供货要求以沟通确认为准。',
 } as const;
 
 export const navigation = [

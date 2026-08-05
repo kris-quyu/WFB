@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import WeChatContact from '../components/WeChatContact.astro';
 import JsonLd from '../components/JsonLd.astro';
 import { siteConfig, isConfirmedValue } from '../data/site';
 
@@ -32,10 +33,11 @@ const organization: Record<string, unknown> = {
   name: siteConfig.companyName,
   url: siteConfig.siteUrl,
   description: siteConfig.description,
+  foundingDate: siteConfig.foundedAt,
+  identifier: siteConfig.creditCode,
 };
 
 if (isConfirmedValue(siteConfig.phone)) organization.telephone = siteConfig.phone;
-if (isConfirmedValue(siteConfig.email)) organization.email = siteConfig.email;
 if (isConfirmedValue(siteConfig.registeredAddress)) {
   organization.address = {
     '@type': 'PostalAddress',
@@ -83,5 +85,6 @@ const structuredData = [organization, breadcrumbJsonLd, ...(Array.isArray(jsonLd
       <slot />
     </main>
     <SiteFooter />
+    <WeChatContact />
   </body>
 </html>

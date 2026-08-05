@@ -11,9 +11,10 @@ import { navigation, siteConfig } from '../data/site';
     <div>
       <h2>联系信息</h2>
       <ul>
-        <li>电话：{siteConfig.phone}</li>
-        <li>邮箱：{siteConfig.email}</li>
+        <li>电话：<a href={`tel:${siteConfig.phone}`}>{siteConfig.phone}</a></li>
+        <li>微信：扫码添加好友</li>
         <li>工厂：{siteConfig.factoryAddress}</li>
+        <li>统一社会信用代码：{siteConfig.creditCode}</li>
       </ul>
     </div>
     <div>

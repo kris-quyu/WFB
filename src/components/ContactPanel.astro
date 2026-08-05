@@ -2,7 +2,6 @@
 import { isConfirmedValue, siteConfig } from '../data/site';
 
 const hasPhone = isConfirmedValue(siteConfig.phone);
-const hasEmail = isConfirmedValue(siteConfig.email);
 ---
 
 <section class="contact-panel" aria-labelledby="contact-panel-title">
@@ -13,7 +12,7 @@ const hasEmail = isConfirmedValue(siteConfig.email);
   </div>
   <div class="contact-panel__actions">
     {hasPhone ? <a class="button" href={`tel:${siteConfig.phone}`}>电话咨询</a> : <span class="contact-panel__pending">电话：{siteConfig.phone}</span>}
-    {hasEmail ? <a class="button button--outline" href={`mailto:${siteConfig.email}`}>邮件询价</a> : <span class="contact-panel__pending">邮箱：{siteConfig.email}</span>}
+    <button class="button button--outline" type="button" data-wechat-open>微信咨询</button>
   </div>
 </section>
 
@@ -53,6 +52,7 @@ const hasEmail = isConfirmedValue(siteConfig.email);
   .button--outline {
     color: white;
     border-color: #c5ccd4;
+    cursor: pointer;
   }
 
   .contact-panel__pending {

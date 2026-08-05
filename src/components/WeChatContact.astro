@@ -1,0 +1,155 @@
+---
+import { siteConfig } from '../data/site';
+---
+
+<button
+  class="wechat-float"
+  type="button"
+  aria-haspopup="dialog"
+  aria-controls="wechat-contact-dialog"
+  data-wechat-open
+>
+  <span>微信咨询</span>
+  <small>点击查看二维码</small>
+</button>
+
+<dialog id="wechat-contact-dialog" aria-labelledby="wechat-dialog-title" class="wechat-dialog">
+  <div class="wechat-dialog__panel">
+    <button class="wechat-dialog__close" type="button" aria-label="关闭微信二维码" data-wechat-close>关闭</button>
+    <p class="eyebrow">WECHAT CONTACT</p>
+    <h2 id="wechat-dialog-title">微信扫码添加好友</h2>
+    <p>添加时可简单说明需要咨询的产品、规格和数量。</p>
+    <img src={siteConfig.wechatQrImage} alt="天瑞无纺布微信联系人二维码" width="888" height="1099" loading="lazy" />
+    <a href={`tel:${siteConfig.phone}`}>电话联系：{siteConfig.phone}</a>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('#wechat-contact-dialog');
+  const openButtons = document.querySelectorAll<HTMLElement>('[data-wechat-open]');
+  const closeButton = dialog?.querySelector<HTMLElement>('[data-wechat-close]');
+
+  const openDialog = () => {
+    if (!dialog?.open) {
+      dialog?.showModal();
+      document.body.classList.add('wechat-dialog-open');
+    }
+  };
+
+  openButtons.forEach((button) => button.addEventListener('click', openDialog));
+  closeButton?.addEventListener('click', () => dialog?.close());
+  dialog?.addEventListener('click', (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+  dialog?.addEventListener('close', () => document.body.classList.remove('wechat-dialog-open'));
+</script>
+
+<style>
+  .wechat-float {
+    position: fixed;
+    z-index: 45;
+    right: 18px;
+    bottom: 24%;
+    display: grid;
+    gap: 2px;
+    min-width: 112px;
+    padding: 12px 14px;
+    border: 1px solid rgb(255 255 255 / 40%);
+    border-radius: 4px;
+    color: white;
+    background: var(--color-forest);
+    box-shadow: 0 12px 30px rgb(31 43 58 / 24%);
+    cursor: pointer;
+  }
+
+  .wechat-float span {
+    font-weight: 850;
+  }
+
+  .wechat-float small {
+    color: rgb(255 255 255 / 72%);
+    font-size: 0.68rem;
+  }
+
+  .wechat-float:hover {
+    background: var(--color-forest-dark);
+  }
+
+  .wechat-dialog {
+    width: min(92vw, 480px);
+    max-height: 92vh;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    color: var(--color-ink);
+    background: var(--color-paper);
+    box-shadow: 0 24px 80px rgb(13 22 34 / 36%);
+  }
+
+  .wechat-dialog::backdrop {
+    background: rgb(25 34 47 / 72%);
+    backdrop-filter: blur(4px);
+  }
+
+  .wechat-dialog__panel {
+    position: relative;
+    padding: 34px;
+    text-align: center;
+  }
+
+  .wechat-dialog__close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    padding: 7px 10px;
+    border: 1px solid var(--color-line);
+    color: var(--color-muted);
+    background: var(--color-paper);
+    cursor: pointer;
+  }
+
+  .wechat-dialog h2 {
+    margin: 0;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+  }
+
+  .wechat-dialog p:not(.eyebrow) {
+    margin: 10px auto 20px;
+    color: var(--color-muted);
+  }
+
+  .wechat-dialog img {
+    width: min(100%, 330px);
+    max-height: 55vh;
+    margin: 0 auto 18px;
+    object-fit: contain;
+  }
+
+  .wechat-dialog a {
+    color: var(--color-forest);
+    font-weight: 800;
+  }
+
+  @media (max-width: 700px) {
+    .wechat-float {
+      right: 12px;
+      bottom: max(16px, env(safe-area-inset-bottom));
+      min-width: auto;
+      padding: 11px 13px;
+    }
+
+    .wechat-float small {
+      display: none;
+    }
+
+    .wechat-dialog__panel {
+      padding: 30px 20px 24px;
+    }
+  }
+</style>
+
+<style is:global>
+  body.wechat-dialog-open {
+    overflow: hidden;
+  }
+</style>

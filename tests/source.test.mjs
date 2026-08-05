@@ -115,7 +115,8 @@ test('content components keep specifications and contact details honest', () => 
   const contact = readFileSync(resolve(root, 'src/components/ContactPanel.astro'), 'utf8');
   assert.match(contact, /isConfirmedValue/);
   assert.match(contact, /tel:/);
-  assert.match(contact, /mailto:/);
+  assert.match(contact, /data-wechat-open/);
+  assert.doesNotMatch(contact, /mailto:/);
 });
 
 test('JSON-LD is emitted as an explicit inline data script', () => {

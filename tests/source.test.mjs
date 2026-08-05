@@ -7,7 +7,7 @@ import { createHash } from 'node:crypto';
 const root = resolve(import.meta.dirname, '..');
 const siteDataPath = resolve(root, 'src/data/site.ts');
 
-test('site data defines ten procurement-oriented navigation targets', () => {
+test('site data exposes one product introduction navigation target', () => {
   assert.equal(existsSync(siteDataPath), true, 'src/data/site.ts should exist');
   const source = readFileSync(siteDataPath, 'utf8');
   const expectedPaths = [
@@ -16,9 +16,7 @@ test('site data defines ten procurement-oriented navigation targets', () => {
     '/factory/',
     '/equipment/',
     '/quality/',
-    '/products/product-a/',
-    '/products/product-b/',
-    '/products/product-c/',
+    '/#products',
     '/applications/',
     '/knowledge/',
   ];
@@ -26,6 +24,9 @@ test('site data defines ten procurement-oriented navigation targets', () => {
   for (const path of expectedPaths) {
     assert.match(source, new RegExp(`href:\\s*['\"]${path.replaceAll('/', '\\/')}['\"]`));
   }
+
+  assert.match(source, /label:\s*['"]产品介绍['"]\s*,\s*href:\s*['"]\/#products['"]/);
+  assert.doesNotMatch(source, /href:\s*['"]\/products\/product-[abc]\//);
 });
 
 test('site data exposes explicit placeholders and no unsupported claims', () => {

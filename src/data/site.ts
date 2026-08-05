@@ -21,9 +21,7 @@ export const navigation = [
   { label: '工厂实力', href: '/factory/' },
   { label: '生产设备', href: '/equipment/' },
   { label: '质量检测', href: '/quality/' },
-  { label: '产品 A', href: '/products/product-a/' },
-  { label: '产品 B', href: '/products/product-b/' },
-  { label: '产品 C', href: '/products/product-c/' },
+  { label: '产品介绍', href: '/#products' },
   { label: '应用场景', href: '/applications/' },
   { label: 'FAQ / 知识库', href: '/knowledge/' },
 ] as const;

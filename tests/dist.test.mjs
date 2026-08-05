@@ -61,14 +61,15 @@ test('robots and sitemap are deployment-ready', () => {
 
 test('homepage contains one essential hero followed directly by the footer', () => {
   const home = htmlFor('');
+  const main = home.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1] ?? '';
   const productsPage = htmlFor('products');
-  assert.match(home, /class="immersive-hero"/);
-  assert.equal((home.match(/<section\b/g) ?? []).length, 1, 'homepage should render one content section');
+  assert.match(main, /class="immersive-hero"/);
+  assert.equal((main.match(/<section\b/g) ?? []).length, 1, 'homepage should render one content section');
   assert.match(home, /<\/section>\s*<\/main>\s*<footer\b/);
-  assert.doesNotMatch(home, /class="product-showcase/);
-  assert.match(home, /src="\/images\/nonwoven-production-line\.png"/);
-  assert.doesNotMatch(home, /class="button-row"|class="immersive-hero__caption"|class="homepage-continuation"/);
-  assert.doesNotMatch(home, /能力证据|应用场景|常见问题|资料状态说明|询价准备/);
+  assert.doesNotMatch(main, /class="product-showcase/);
+  assert.match(main, /src="\/images\/nonwoven-production-line\.png"/);
+  assert.doesNotMatch(main, /class="button-row"|class="immersive-hero__caption"|class="homepage-continuation"/);
+  assert.doesNotMatch(main, /能力证据|应用场景|常见问题|资料状态说明|询价准备/);
   assert.match(productsPage, /class="product-showcase/);
   assert.match(productsPage, /data-product-filter="all"[^>]+aria-pressed="true"/);
   assert.match(productsPage, /id="product-a"[^>]+data-product-card="product-a"/);

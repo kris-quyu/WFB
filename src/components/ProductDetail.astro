@@ -20,10 +20,11 @@ const crumbs = [
 const productJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Product',
-  name: `${product.displayName} · ${product.confirmedName}`,
+  name: product.displayName,
   description: product.summary,
   material: product.material,
-  category: '无纺布',
+  image: new URL(product.image, siteConfig.siteUrl).toString(),
+  category: product.displayName,
   url: new URL(path, siteConfig.siteUrl).toString(),
 };
 ---
@@ -37,26 +38,30 @@ const productJsonLd = {
 >
   <PageHero
     eyebrow="产品资料"
-    title={`${product.displayName} · ${product.confirmedName}`}
+    title={product.displayName}
     description={product.summary}
     breadcrumbs={crumbs}
   />
   <section class="section">
     <div class="container product-intro grid grid--2">
+      <figure class="product-photo">
+        <img src={product.image} alt={product.imageAlt} width="1254" height="1254" loading="eager" />
+        <figcaption>企业提供的{product.displayName}实际产品照片</figcaption>
+      </figure>
       <div>
         <div class="section-heading">
-          <p class="section-heading__eyebrow">基础定义</p>
-          <h2>先确认材料与工艺</h2>
+          <p class="section-heading__eyebrow">产品说明</p>
+          <h2>先说明用途，再确认规格</h2>
         </div>
         <dl class="definition-list">
           <div><dt>材料</dt><dd>{product.material}</dd></div>
           <div><dt>工艺</dt><dd>{product.process}</dd></div>
           <div><dt>包装</dt><dd>{product.packaging}</dd></div>
         </dl>
+        <PlaceholderNotice>
+          产品类别与照片已经企业确认；材质、规格范围、包装和供货要求仍需结合真实订单逐项确认。
+        </PlaceholderNotice>
       </div>
-      <PlaceholderNotice>
-        本页是产品结构模板。真实产品名、规格、特点、包装和适用场景需要企业依据产品资料逐项确认。
-      </PlaceholderNotice>
     </div>
   </section>
   <section class="section section--warm">
@@ -94,6 +99,24 @@ const productJsonLd = {
 
   .definition-list {
     margin: 0;
+  }
+
+  .product-photo {
+    margin: 0;
+    border: 1px solid var(--color-line);
+    background: white;
+  }
+
+  .product-photo img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: contain;
+  }
+
+  .product-photo figcaption {
+    padding: 12px 16px;
+    color: var(--color-muted);
+    font-size: 0.86rem;
   }
 
   .definition-list div {

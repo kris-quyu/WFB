@@ -103,6 +103,30 @@ test('product and evidence content cover real procurement decisions', () => {
   assert.doesNotMatch(`${products}\n${content}`, /行业领先|全球领先|年产\s*\d|通过\s*ISO/);
 });
 
+test('GEO content defines eighteen product-specific micro scenarios', () => {
+  const content = readFileSync(resolve(root, 'src/data/content.ts'), 'utf8');
+  assert.match(content, /export interface MicroScenario/);
+  assert.match(content, /export const microScenarios/);
+  assert.match(content, /export const featuredScenarios/);
+  assert.match(content, /export const getScenariosForProduct/);
+  assert.equal((content.match(/productSlug:\s*'product-a'/g) ?? []).length, 6);
+  assert.equal((content.match(/productSlug:\s*'product-b'/g) ?? []).length, 6);
+  assert.equal((content.match(/productSlug:\s*'product-c'/g) ?? []).length, 6);
+  assert.equal((content.match(/featured:\s*true/g) ?? []).length, 6);
+});
+
+test('public product and FAQ data contain useful answers without editorial placeholders', () => {
+  const products = readFileSync(resolve(root, 'src/data/products.ts'), 'utf8');
+  const content = readFileSync(resolve(root, 'src/data/content.ts'), 'utf8');
+  assert.doesNotMatch(`${products}\n${content}`, /\[待企业确认|资料原则|未经确认数字/);
+  for (const phrase of ['行业常见原料', 'selectionFocus', '开松混合', '梳理成网', '针刺加固']) {
+    assert.match(products, new RegExp(phrase));
+  }
+  for (const topic of ['起订量会受到', '交期根据', '包装方式需要', '收货地点']) {
+    assert.match(content, new RegExp(topic));
+  }
+});
+
 test('content components keep specifications and contact details honest', () => {
   for (const relative of [
     'src/components/ProductCard.astro',

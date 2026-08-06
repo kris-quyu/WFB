@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductShowcase from '../../components/ProductShowcase.astro';
-import PlaceholderNotice from '../../components/PlaceholderNotice.astro';
 import ContactPanel from '../../components/ContactPanel.astro';
 import { siteConfig } from '../../data/site';
 ---
@@ -18,7 +17,11 @@ import { siteConfig } from '../../data/site';
   <ProductShowcase />
   <div class="products-followup">
     <section class="section">
-      <div class="container"><PlaceholderNotice /></div>
+      <div class="container product-guidance">
+        <p class="eyebrow">选型说明</p>
+        <h2>先按用途选择产品，再确认订单规格</h2>
+        <p>页面中的原料、工艺和应用属于行业常见选型知识。实际材质、克重、幅宽、颜色、卷长及包装方式，需要结合样品和订单要求确认。</p>
+      </div>
     </section>
     <div class="container section"><ContactPanel /></div>
   </div>
@@ -34,8 +37,15 @@ import { siteConfig } from '../../data/site';
     background: #f2f2f2;
   }
 
-  .products-followup :global(.placeholder-notice) {
-    border-left-color: #b8322a;
-    background: #e7e9ec;
+  .product-guidance {
+    max-width: 900px;
+  }
+
+  .product-guidance h2 {
+    margin: 0;
+  }
+
+  .product-guidance > p:last-child {
+    color: var(--color-muted);
   }
 </style>

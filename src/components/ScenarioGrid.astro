@@ -1,0 +1,131 @@
+---
+import type { MicroScenario } from '../data/content';
+
+interface Props {
+  scenarios: MicroScenario[];
+  compact?: boolean;
+  linkToProduct?: boolean;
+}
+
+const { scenarios, compact = false, linkToProduct = false } = Astro.props;
+---
+
+<div class:list={['scenario-grid', { 'scenario-grid--compact': compact }]}>
+  {scenarios.map((scenario, index) => (
+    <article class="scenario-card" data-scenario={scenario.slug} id={scenario.slug}>
+      <p class="scenario-card__index">{String(index + 1).padStart(2, '0')}</p>
+      <h3>{scenario.title}</h3>
+      <p class="scenario-card__issue">{scenario.issue}</p>
+      {compact ? (
+        <p class="scenario-card__candidate"><strong>候选产品：</strong>{scenario.candidateProduct}</p>
+      ) : (
+        <dl>
+          <div>
+            <dt>选型重点</dt>
+            <dd>{scenario.focus.join('、')}</dd>
+          </div>
+          <div>
+            <dt>候选产品</dt>
+            <dd>{scenario.candidateProduct}</dd>
+          </div>
+          <div>
+            <dt>询价需提供</dt>
+            <dd>{scenario.inquiryInput.join('、')}</dd>
+          </div>
+        </dl>
+      )}
+      {linkToProduct && (
+        <a class="scenario-card__link" href={`/products/${scenario.productSlug}/#${scenario.slug}`}>
+          查看完整选型说明
+        </a>
+      )}
+    </article>
+  ))}
+</div>
+
+<style>
+  .scenario-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    border: 1px solid var(--color-line);
+    background: var(--color-line);
+  }
+
+  .scenario-grid--compact {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .scenario-card {
+    min-width: 0;
+    padding: clamp(24px, 3vw, 36px);
+    background: var(--color-paper);
+  }
+
+  .scenario-card__index {
+    margin: 0 0 14px;
+    color: var(--color-accent);
+    font-size: 0.82rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: clamp(1.15rem, 2vw, 1.45rem);
+    line-height: 1.35;
+  }
+
+  .scenario-card__issue,
+  .scenario-card__candidate {
+    color: var(--color-muted);
+  }
+
+  dl {
+    margin: 24px 0 0;
+  }
+
+  dl div {
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    gap: 16px;
+    padding: 11px 0;
+    border-top: 1px solid var(--color-line);
+  }
+
+  dt {
+    color: var(--color-forest);
+    font-weight: 800;
+  }
+
+  dd {
+    margin: 0;
+    color: var(--color-muted);
+  }
+
+  .scenario-card__link {
+    display: inline-block;
+    margin-top: 18px;
+    color: var(--color-accent);
+    font-weight: 800;
+    border-bottom: 1px solid currentColor;
+  }
+
+  @media (max-width: 900px) {
+    .scenario-grid--compact {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 700px) {
+    .scenario-grid,
+    .scenario-grid--compact {
+      grid-template-columns: 1fr;
+    }
+
+    dl div {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+  }
+</style>

@@ -143,6 +143,18 @@ test('content components keep specifications and contact details honest', () => 
   assert.doesNotMatch(contact, /mailto:/);
 });
 
+test('product detail uses a reusable scenario grid and matching FAQ data', () => {
+  const detail = readFileSync(resolve(root, 'src/components/ProductDetail.astro'), 'utf8');
+  const gridPath = resolve(root, 'src/components/ScenarioGrid.astro');
+  assert.equal(existsSync(gridPath), true, 'ScenarioGrid.astro should render shared scenario data');
+  const grid = readFileSync(gridPath, 'utf8');
+  assert.match(detail, /getScenariosForProduct/);
+  assert.match(detail, /<ScenarioGrid/);
+  assert.match(detail, /'@type': 'FAQPage'/);
+  assert.match(grid, /data-scenario=/);
+  assert.match(grid, /询价需提供/);
+});
+
 test('JSON-LD is emitted as an explicit inline data script', () => {
   const jsonLd = readFileSync(resolve(root, 'src/components/JsonLd.astro'), 'utf8');
   assert.match(jsonLd, /<script\s+is:inline\s+type="application\/ld\+json"/);

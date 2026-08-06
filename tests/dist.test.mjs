@@ -88,11 +88,14 @@ test('homepage presents every primary module as one continuous document', () => 
   assert.match(productsPage, /scrollIntoView/);
 });
 
-test('interior routes retain applications, knowledge, status, and inquiry content', () => {
+test('interior routes retain applications, knowledge, product guidance, and inquiry content', () => {
+  const products = htmlFor('products');
+  const productsMain = products.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1] ?? '';
   assert.match(htmlFor('applications'), /应用场景/);
   assert.match(htmlFor('knowledge'), /常见问题|FAQ/);
-  assert.match(htmlFor('products'), /资料状态说明/);
-  assert.match(htmlFor('products'), /询价准备/);
+  assert.match(productsMain, /选型说明/);
+  assert.doesNotMatch(productsMain, /资料状态说明|待企业确认/);
+  assert.match(productsMain, /询价准备/);
 });
 
 test('rendered site publishes verified Tianrui identity and phone without email', () => {
@@ -117,6 +120,15 @@ test('rendered site exposes three verified products with real photographs', () =
   }
   for (const image of ['product-nonwoven.png', 'product-needle-punched-fabric.png', 'product-geotextile.png']) {
     assert.match(`${home}\n${productPages}`, new RegExp(`/images/${image.replace('.', '\\.')}`));
+  }
+});
+
+test('each product page renders six owned scenarios and matching FAQPage JSON-LD', () => {
+  for (const route of ['products/product-a', 'products/product-b', 'products/product-c']) {
+    const html = htmlFor(route);
+    assert.equal((html.match(/data-scenario=/g) ?? []).length, 6);
+    assert.match(html, /"@type":"Product"/);
+    assert.match(html, /"@type":"FAQPage"/);
   }
 });
 

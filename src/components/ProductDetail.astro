@@ -2,9 +2,10 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from './PageHero.astro';
 import SpecTable from './SpecTable.astro';
-import PlaceholderNotice from './PlaceholderNotice.astro';
+import ScenarioGrid from './ScenarioGrid.astro';
 import ContactPanel from './ContactPanel.astro';
 import type { Product } from '../data/products';
+import { getScenariosForProduct } from '../data/content';
 import { siteConfig } from '../data/site';
 
 interface Props {
@@ -27,6 +28,19 @@ const productJsonLd = {
   category: product.displayName,
   url: new URL(path, siteConfig.siteUrl).toString(),
 };
+const scenarios = getScenariosForProduct(product.slug);
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: scenarios.map((scenario) => ({
+    '@type': 'Question',
+    name: scenario.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: `${scenario.issue} 选型时重点确认：${scenario.focus.join('、')}。询价需提供：${scenario.inquiryInput.join('、')}。`,
+    },
+  })),
+};
 ---
 
 <BaseLayout
@@ -34,7 +48,7 @@ const productJsonLd = {
   description={product.summary}
   canonicalPath={path}
   breadcrumbs={crumbs}
-  jsonLd={productJsonLd}
+  jsonLd={[productJsonLd, faqJsonLd]}
 >
   <PageHero
     eyebrow="产品资料"
@@ -54,13 +68,11 @@ const productJsonLd = {
           <h2>先说明用途，再确认规格</h2>
         </div>
         <dl class="definition-list">
-          <div><dt>材料</dt><dd>{product.material}</dd></div>
-          <div><dt>工艺</dt><dd>{product.process}</dd></div>
+          <div><dt>常见原料</dt><dd>{product.material}</dd></div>
+          <div><dt>常见工艺</dt><dd>{product.process}</dd></div>
           <div><dt>包装</dt><dd>{product.packaging}</dd></div>
         </dl>
-        <PlaceholderNotice>
-          产品类别与照片已经企业确认；材质、规格范围、包装和供货要求仍需结合真实订单逐项确认。
-        </PlaceholderNotice>
+        <p class="selection-note">以上原料与工艺用于说明行业常见选型方向，不代表当前产品包含全部类型。最终材质、规格与包装以样品和订单确认结果为准。</p>
       </div>
     </div>
   </section>
@@ -75,9 +87,19 @@ const productJsonLd = {
   </section>
   <section class="section">
     <div class="container grid grid--3">
-      <article class="card"><h2>当前特点</h2><ul>{product.features.map((item) => <li>{item}</li>)}</ul></article>
+      <article class="card"><h2>选型说明</h2><ul>{product.features.map((item) => <li>{item}</li>)}</ul></article>
       <article class="card"><h2>应用方向</h2><ul>{product.applications.map((item) => <li>{item}</li>)}</ul></article>
       <article class="card"><h2>可讨论定制项</h2><ul>{product.customization.map((item) => <li>{item}</li>)}</ul></article>
+    </div>
+  </section>
+  <section class="section section--warm">
+    <div class="container">
+      <div class="section-heading">
+        <p class="section-heading__eyebrow">常见应用问题</p>
+        <h2>{product.displayName}在不同场景中怎么选</h2>
+        <p>根据实际用途整理选型重点和询价资料，具体规格仍需结合样品、设计要求或订单确认。</p>
+      </div>
+      <ScenarioGrid scenarios={scenarios} />
     </div>
   </section>
   <section class="section section--warm">
@@ -99,6 +121,14 @@ const productJsonLd = {
 
   .definition-list {
     margin: 0;
+  }
+
+  .selection-note {
+    margin-top: 22px;
+    padding: 18px 20px;
+    border-left: 3px solid var(--color-accent);
+    color: var(--color-muted);
+    background: var(--color-warm-gray);
   }
 
   .product-photo {

@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
-import PlaceholderNotice from '../../components/PlaceholderNotice.astro';
 import ContactPanel from '../../components/ContactPanel.astro';
 import { siteConfig } from '../../data/site';
 
@@ -11,11 +10,10 @@ const crumbs = [{ label: '首页', href: '/' }, { label: '企业介绍', href: '
 <BaseLayout title={`企业介绍｜${siteConfig.shortName}`} description="了解广州市天瑞无纺布有限公司的成立时间、企业地址、经营范围和无纺布、针刺布、土工布产品。" canonicalPath="/about/" breadcrumbs={crumbs}>
   <PageHero eyebrow="关于企业" title="企业介绍" description="成立于2004年的广州无纺布生产企业，以真实主体、产品照片和采购信息介绍企业。" breadcrumbs={crumbs} />
   <section class="section"><div class="container grid grid--2">
-    <div><div class="section-heading"><p class="section-heading__eyebrow">企业概况</p><h2>扎根广州的传统制造企业</h2></div><p>{siteConfig.description}</p><p>网站以营业执照资料、实际生产现场和真实产品照片为基础，不使用未经确认的规模、荣誉、认证或客户数据。</p></div>
+    <div><div class="section-heading"><p class="section-heading__eyebrow">企业概况</p><h2>2004年成立，专注无纺材料供应</h2></div><p>{siteConfig.description}</p><p>公司主要提供无纺布、针刺布和土工布，面向包装防护、家具家居、过滤工业、工程铺设等用途。采购时可结合实际使用环境，沟通材质、克重、幅宽、颜色、数量及后续加工要求。</p></div>
     <dl class="card fact-list"><div><dt>企业名称</dt><dd>{siteConfig.companyName}</dd></div><div><dt>成立日期</dt><dd>2004年6月1日</dd></div><div><dt>信用代码</dt><dd>{siteConfig.creditCode}</dd></div><div><dt>企业类型</dt><dd>{siteConfig.companyType}</dd></div><div><dt>注册地址</dt><dd>{siteConfig.registeredAddress}</dd></div><div><dt>工厂地址</dt><dd>{siteConfig.factoryAddress}</dd></div><div><dt>联系电话</dt><dd><a href={`tel:${siteConfig.phone}`}>{siteConfig.phone}</a></dd></div></dl>
   </div></section>
   <section class="section section--warm"><div class="container grid grid--3"><article class="card"><h2>登记经营范围</h2><p>纺织服装、服饰业；具体经营项目以登记机关公开信息为准。</p></article><article class="card"><h2>主营产品</h2><p>无纺布、针刺布与土工布。具体材质、规格和包装以产品资料及询价确认为准。</p></article><article class="card"><h2>沟通方式</h2><p>可通过电话或微信说明产品用途、规格、数量和收货地点，再确认是否适合生产供应。</p></article></div></section>
-  <section class="section"><div class="container"><PlaceholderNotice /></div></section>
   <div class="container section"><ContactPanel /></div>
 </BaseLayout>
 

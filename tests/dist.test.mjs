@@ -88,6 +88,13 @@ test('homepage presents every primary module as one continuous document', () => 
   assert.match(productsPage, /scrollIntoView/);
 });
 
+test('homepage stays concise with six featured scenario summaries', () => {
+  const home = htmlFor('');
+  const applications = home.match(/<section[^>]+id="applications"[\s\S]*?<\/section>/)?.[0] ?? '';
+  assert.equal((applications.match(/data-scenario=/g) ?? []).length, 6);
+  assert.doesNotMatch(home, /资料原则|不能确认的不包装|不使用未经确认|只提供一张/);
+});
+
 test('interior routes retain applications, knowledge, product guidance, and inquiry content', () => {
   const products = htmlFor('products');
   const productsMain = products.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1] ?? '';

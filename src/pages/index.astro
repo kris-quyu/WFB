@@ -2,9 +2,10 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import PhotoEvidence from '../components/PhotoEvidence.astro';
+import ScenarioGrid from '../components/ScenarioGrid.astro';
 import { siteConfig } from '../data/site';
 import { products } from '../data/products';
-import { applications, faqItems, knowledgeArticles } from '../data/content';
+import { faqItems, featuredScenarios, knowledgeArticles } from '../data/content';
 ---
 
 <BaseLayout
@@ -38,9 +39,9 @@ import { applications, faqItems, knowledgeArticles } from '../data/content';
         <p>{siteConfig.description}</p>
       </div>
       <div class="evidence-panel">
-        <p class="evidence-panel__label">资料原则</p>
-        <h3>能核实的再公开，不能确认的不包装</h3>
-        <p>企业成立于2004年，注册地址与实际工厂地址均位于广州市白云区。产品具体规格和供货要求以沟通确认为准。</p>
+        <p class="evidence-panel__label">企业概况</p>
+        <h3>2004年成立，专注无纺材料供应</h3>
+        <p>广州市天瑞无纺布有限公司位于广州市白云区，主要提供无纺布、针刺布和土工布。客户可根据产品用途、材质、克重、幅宽、颜色、数量及后续加工要求沟通选型与供货。</p>
         <a class="section-link" href="/about/">查看企业介绍详情</a>
       </div>
     </div>
@@ -65,11 +66,11 @@ import { applications, faqItems, knowledgeArticles } from '../data/content';
       <div>
         <div class="section-heading">
           <p class="section-heading__eyebrow">FACTORY</p>
-          <h2>工厂实力</h2>
-          <p>用真实生产现场和可核实流程说明企业能力，不使用未经确认的厂房面积、产能或客户数字。</p>
+          <h2>从需求确认到卷材交付</h2>
+          <p>根据产品用途和订单要求确认材料、规格、数量与包装方式，通过生产加工、卷材整理和收卷完成产品交付。</p>
         </div>
         <ul class="fact-list compact-facts">
-          <li><strong>生产现场</strong>已提供一张无纺布生产线真实照片</li>
+          <li><strong>生产现场</strong>无纺布卷材加工与收卷现场</li>
           <li><strong>成立时间</strong>2004年6月1日</li>
           <li><strong>工厂地址</strong>{siteConfig.factoryAddress}</li>
         </ul>
@@ -78,8 +79,8 @@ import { applications, faqItems, knowledgeArticles } from '../data/content';
       <PhotoEvidence
         src="/images/nonwoven-production-line.png"
         alt="无纺布生产线与白色卷材的真实现场"
-        label="已提供的现场照片"
-        caption="照片可用于说明现场设备与生产环境；设备名称、工艺和产能仍需企业确认。"
+        label="无纺布卷材生产现场"
+        caption="现场设备用于无纺材料加工、卷材整理与收卷。客户确定用途和规格后，再沟通相应产品方案与供货要求。"
       />
     </div>
   </section>
@@ -89,11 +90,11 @@ import { applications, faqItems, knowledgeArticles } from '../data/content';
       <div class="section-heading section-heading--light">
         <p class="section-heading__eyebrow">EQUIPMENT</p>
         <h2>生产设备</h2>
-        <p>工厂配备无纺布加工、成卷及相关辅助设备，用于日常生产与产品整理。具体工艺能力以产品规格和订单沟通为准。</p>
+        <p>现场配备常规无纺材料加工、卷材整理、收卷及相关辅助设备，用于日常生产与订单交付。</p>
       </div>
       <div class="equipment-summary">
         <img src="/images/nonwoven-production-line.png" alt="天瑞无纺布生产线与白色卷材现场" width="1680" height="945" loading="lazy" />
-        <p>现场照片用于说明实际生产环境。设备品牌、型号、数量、产能和性能不作为网站公开承诺。</p>
+        <p>生产设备承担材料加工、卷材整理和收卷等环节。客户可先提供用途、材质、克重、幅宽、卷长和数量，再沟通适合的产品与交付方式。</p>
       </div>
       <a class="section-link section-link--light section-link--standalone" href="/equipment/">查看生产设备详情</a>
     </div>
@@ -104,17 +105,9 @@ import { applications, faqItems, knowledgeArticles } from '../data/content';
       <div class="section-heading">
         <p class="section-heading__eyebrow">APPLICATIONS</p>
         <h2>应用领域</h2>
-        <p>按采购用途组织信息，帮助客户先说明使用环境和关键参数，再匹配具体产品。</p>
+        <p>从包装防护、家具衬垫、过滤、工程铺设等采购问题出发，先了解使用环境和选型重点。以下为 6 个代表性场景，完整问题与回答收录在应用页和产品详情页。</p>
       </div>
-      <div class="application-grid">
-        {applications.map((item) => (
-          <article class="application-item">
-            <h3>{item.name}</h3>
-            <p>{item.focus}</p>
-            <small>询价准备：{item.inquiryInput}</small>
-          </article>
-        ))}
-      </div>
+      <ScenarioGrid scenarios={featuredScenarios} compact linkToProduct />
       <a class="section-link section-link--standalone" href="/applications/">查看应用领域详情</a>
     </div>
   </section>
@@ -187,11 +180,6 @@ import { applications, faqItems, knowledgeArticles } from '../data/content';
   .equipment-summary { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(260px, .7fr); align-items: stretch; border: 1px solid rgb(255 255 255 / 22%); background: rgb(255 255 255 / 7%); }
   .equipment-summary img { width: 100%; height: 100%; min-height: 280px; object-fit: cover; }
   .equipment-summary p { display: flex; align-items: center; margin: 0; padding: clamp(28px, 5vw, 54px); color: rgb(255 255 255 / 78%); }
-  .application-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--color-line); border-left: 1px solid var(--color-line); }
-  .application-item { min-height: 210px; padding: 28px; border-right: 1px solid var(--color-line); border-bottom: 1px solid var(--color-line); background: var(--color-paper); }
-  .application-item h3 { margin: 0 0 12px; }
-  .application-item p { color: var(--color-muted); }
-  .application-item small { display: block; margin-top: 28px; color: var(--color-forest); font-weight: 700; }
   .faq-list details { border-top: 1px solid var(--color-line); }
   .faq-list details:last-of-type { border-bottom: 1px solid var(--color-line); }
   .faq-list summary { padding: 20px 0; cursor: pointer; font-size: 1.05rem; font-weight: 800; }
@@ -199,7 +187,6 @@ import { applications, faqItems, knowledgeArticles } from '../data/content';
 
   @media (max-width: 900px) {
     .split-layout, .factory-layout, .knowledge-layout { grid-template-columns: 1fr; }
-    .application-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .equipment-summary { grid-template-columns: 1fr; }
   }
 
@@ -211,6 +198,5 @@ import { applications, faqItems, knowledgeArticles } from '../data/content';
     .immersive-hero h1 { font-size: clamp(2.25rem, 10vw, 3.1rem); letter-spacing: -0.045em; }
     .immersive-hero__copy > p:not(.eyebrow) { margin-top: 22px; font-size: 1rem; }
     .home-section { scroll-margin-top: 102px; padding-block: 68px; }
-    .application-grid { grid-template-columns: 1fr; }
   }
 </style>

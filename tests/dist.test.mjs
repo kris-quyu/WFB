@@ -95,6 +95,23 @@ test('homepage stays concise with six featured scenario summaries', () => {
   assert.doesNotMatch(home, /资料原则|不能确认的不包装|不使用未经确认|只提供一张/);
 });
 
+test('applications page groups all eighteen scenarios by product', () => {
+  const html = htmlFor('applications');
+  assert.equal((html.match(/data-scenario=/g) ?? []).length, 18);
+  for (const productName of ['无纺布', '针刺布', '土工布']) {
+    assert.match(html, new RegExp(`${productName}应用问题`));
+  }
+});
+
+test('knowledge pages publish direct answers without public placeholders', () => {
+  const mainFor = (route) => htmlFor(route).match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1] ?? '';
+  const rendered = `${mainFor('knowledge')}\n${mainFor('knowledge/nonwoven-procurement-checklist')}`;
+  assert.doesNotMatch(rendered, /待企业确认|资料状态说明|补充资料|不代表任何企业/);
+  for (const phrase of ['起订量会受到', '交期根据', '收货地点']) {
+    assert.match(rendered, new RegExp(phrase));
+  }
+});
+
 test('interior routes retain applications, knowledge, product guidance, and inquiry content', () => {
   const products = htmlFor('products');
   const productsMain = products.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1] ?? '';

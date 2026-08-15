@@ -95,6 +95,13 @@ test('homepage stays concise with six featured scenario summaries', () => {
   assert.doesNotMatch(home, /资料原则|不能确认的不包装|不使用未经确认|只提供一张/);
 });
 
+test('homepage uses verifiable facts and actionable inquiry inputs', () => {
+  const home = htmlFor('');
+  for (const phrase of ['成立于2004年', '参考样品或图片', '设备型号不代替产品参数']) {
+    assert.match(home, new RegExp(phrase));
+  }
+});
+
 test('applications page groups all eighteen scenarios by product', () => {
   const html = htmlFor('applications');
   assert.equal((html.match(/data-scenario=/g) ?? []).length, 18);
@@ -154,6 +161,23 @@ test('each product page renders six owned scenarios and matching FAQPage JSON-LD
     assert.match(html, /"@type":"Product"/);
     assert.match(html, /"@type":"FAQPage"/);
   }
+});
+
+test('product pages publish distinct selection boundaries without unsupported claims', () => {
+  const pages = {
+    nonwoven: htmlFor('products/product-a'),
+    needlePunched: htmlFor('products/product-b'),
+    geotextile: htmlFor('products/product-c'),
+  };
+
+  for (const html of Object.values(pages)) {
+    assert.match(html, /选型边界/);
+    assert.doesNotMatch(html, /年产\s*\d|服务\s*\d+\s*家|通过\s*ISO|行业领先|全球领先/);
+  }
+
+  assert.match(pages.nonwoven, /不能只按产品名称/);
+  assert.match(pages.needlePunched, /不能只凭厚度或手感/);
+  assert.match(pages.geotextile, /不能只按克重/);
 });
 
 test('WeChat contact is accessible', () => {

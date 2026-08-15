@@ -65,14 +65,14 @@ const faqJsonLd = {
       <div>
         <div class="section-heading">
           <p class="section-heading__eyebrow">产品说明</p>
-          <h2>先说明用途，再确认规格</h2>
+          <h2>先判断用途，再谈材料和参数</h2>
         </div>
         <dl class="definition-list">
-          <div><dt>常见原料</dt><dd>{product.material}</dd></div>
-          <div><dt>常见工艺</dt><dd>{product.process}</dd></div>
-          <div><dt>包装</dt><dd>{product.packaging}</dd></div>
+          <div><dt>行业常见原料</dt><dd>{product.material}</dd></div>
+          <div><dt>行业常见工艺</dt><dd>{product.process}</dd></div>
+          <div><dt>包装确认项</dt><dd>{product.packaging}</dd></div>
         </dl>
-        <p class="selection-note">以上原料与工艺用于说明行业常见选型方向，不代表当前产品包含全部类型。最终材质、规格与包装以样品和订单确认结果为准。</p>
+        <p class="selection-note">这里的原料与工艺用于解释行业常见选型方向，不表示企业供应全部类型。实际产品应按用途、样品、目标参数和订单要求逐项核对。</p>
       </div>
     </div>
   </section>
@@ -80,14 +80,14 @@ const faqJsonLd = {
     <div class="container">
       <div class="section-heading">
         <p class="section-heading__eyebrow">规格参数</p>
-        <h2>询价时需要明确的参数</h2>
+        <h2>先写清使用条件，再核对可做规格</h2>
       </div>
       <SpecTable rows={product.specifications} caption={`${product.displayName} 参数表`} />
     </div>
   </section>
   <section class="section">
     <div class="container grid grid--3">
-      <article class="card"><h2>选型说明</h2><ul>{product.features.map((item) => <li>{item}</li>)}</ul></article>
+      <article class="card"><h2>选型边界</h2><ul>{product.features.map((item) => <li>{item}</li>)}</ul></article>
       <article class="card"><h2>应用方向</h2><ul>{product.applications.map((item) => <li>{item}</li>)}</ul></article>
       <article class="card"><h2>可讨论定制项</h2><ul>{product.customization.map((item) => <li>{item}</li>)}</ul></article>
     </div>

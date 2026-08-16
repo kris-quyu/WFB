@@ -197,7 +197,8 @@ test('all requested routes have semantic page sources', () => {
 
   const home = readFileSync(resolve(root, 'src/pages/index.astro'), 'utf8');
   const equipment = readFileSync(resolve(root, 'src/pages/equipment/index.astro'), 'utf8');
-  assert.match(home, /nonwoven-production-line\.png/);
+  assert.match(home, /factory-finished-roll-processing\.png/);
+  assert.match(home, /factory-fiber-processing-line\.png/);
   assert.match(equipment, /现场照片/);
   assert.equal(existsSync(resolve(root, 'src/pages/quality/index.astro')), false);
 });
@@ -211,7 +212,7 @@ test('public enterprise pages contain customer-facing copy instead of editorial 
   ];
   const source = relativeFiles.map((file) => readFileSync(resolve(root, file), 'utf8')).join('\n');
   assert.doesNotMatch(source, /资料原则|不能确认的不包装|不使用未经确认|只提供一张|仍待企业补充|不作未经核实/);
-  for (const phrase of ['2004年成立，专注无纺材料供应', '从需求确认到卷材交付', '无纺布卷材生产现场']) {
+  for (const phrase of ['2004年成立，专注无纺材料供应', '从需求确认到卷材交付', '无纺布卷材整理现场']) {
     assert.match(source, new RegExp(phrase));
   }
 });

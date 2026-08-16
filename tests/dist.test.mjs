@@ -109,7 +109,8 @@ test('homepage presents every primary module as one continuous document', () => 
   const ids = [...main.matchAll(/<section\b[^>]*id="([^"]+)"/g)].map((match) => match[1]);
   assert.deepEqual(ids, ['about', 'products', 'factory', 'equipment', 'applications', 'knowledge']);
   assert.doesNotMatch(main, /class="product-showcase/);
-  assert.match(main, /src="\/WFB\/images\/nonwoven-production-line\.png"/);
+  assert.match(main, /src="\/WFB\/images\/factory-finished-roll-processing\.png"/);
+  assert.match(main, /src="\/WFB\/images\/factory-fiber-processing-line\.png"/);
   assert.match(main, /关于我们|产品中心|工厂实力|生产设备|应用领域|知识中心/);
   assert.doesNotMatch(main, /质量检测|质量流程/);
   assert.match(productsPage, /class="product-showcase/);

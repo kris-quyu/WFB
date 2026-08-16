@@ -6,6 +6,7 @@ import ScenarioGrid from '../components/ScenarioGrid.astro';
 import { siteConfig } from '../data/site';
 import { products } from '../data/products';
 import { faqItems, featuredScenarios, knowledgeArticles } from '../data/content';
+import { withBase } from '../utils/path';
 ---
 
 <BaseLayout
@@ -15,7 +16,7 @@ import { faqItems, featuredScenarios, knowledgeArticles } from '../data/content'
   <section class="immersive-hero" data-scroll-section="home">
     <img
       class="immersive-hero__image"
-      src="/images/nonwoven-production-line.png"
+      src={withBase('/images/nonwoven-production-line.png')}
       alt="无纺布生产设备正在加工白色卷材的现场照片"
       width="1680"
       height="945"
@@ -42,7 +43,7 @@ import { faqItems, featuredScenarios, knowledgeArticles } from '../data/content'
         <p class="evidence-panel__label">企业概况</p>
         <h3>2004年成立，主体地址和主营产品可核对</h3>
         <p>公司位于广州市白云区，主要供应无纺布、针刺布和土工布。采购前可先说明用途，提供参考样品或图片、克重、幅宽、颜色和数量，再核对产品与交付安排。</p>
-        <a class="section-link" href="/about/">查看企业介绍详情</a>
+          <a class="section-link" href={withBase('/about/')}>查看企业介绍详情</a>
       </div>
     </div>
   </section>
@@ -57,7 +58,7 @@ import { faqItems, featuredScenarios, knowledgeArticles } from '../data/content'
       <div class="grid grid--3 product-grid">
         {products.map((product) => <ProductCard product={product} />)}
       </div>
-      <a class="section-link section-link--standalone" href="/products/">查看完整产品介绍</a>
+        <a class="section-link section-link--standalone" href={withBase('/products/')}>查看完整产品介绍</a>
     </div>
   </section>
 
@@ -74,10 +75,10 @@ import { faqItems, featuredScenarios, knowledgeArticles } from '../data/content'
           <li><strong>成立时间</strong>2004年6月1日</li>
           <li><strong>工厂地址</strong>{siteConfig.factoryAddress}</li>
         </ul>
-        <a class="section-link section-link--standalone" href="/factory/">查看工厂资料详情</a>
+        <a class="section-link section-link--standalone" href={withBase('/factory/')}>查看工厂资料详情</a>
       </div>
       <PhotoEvidence
-        src="/images/nonwoven-production-line.png"
+          src={withBase('/images/nonwoven-production-line.png')}
         alt="无纺布生产线与白色卷材的真实现场"
         label="无纺布卷材生产现场"
         caption="照片展示无纺材料加工、卷材整理与收卷现场。产品是否适合仍需根据用途、样品和订单规格判断。"
@@ -93,10 +94,10 @@ import { faqItems, featuredScenarios, knowledgeArticles } from '../data/content'
         <p>现有照片展示无纺材料加工、卷材整理和收卷环节。设备型号不代替产品参数，采购仍应先核对用途与规格。</p>
       </div>
       <div class="equipment-summary">
-        <img src="/images/nonwoven-production-line.png" alt="天瑞无纺布生产线与白色卷材现场" width="1680" height="945" loading="lazy" />
+        <img src={withBase('/images/nonwoven-production-line.png')} alt="天瑞无纺布生产线与白色卷材现场" width="1680" height="945" loading="lazy" />
         <p>询价时可提供用途、参考样品或图片、材质、克重、幅宽、卷长和数量；如有后加工、测试或包装要求，也应一并说明。</p>
       </div>
-      <a class="section-link section-link--light section-link--standalone" href="/equipment/">查看生产设备详情</a>
+        <a class="section-link section-link--light section-link--standalone" href={withBase('/equipment/')}>查看生产设备详情</a>
     </div>
   </section>
 
@@ -108,7 +109,7 @@ import { faqItems, featuredScenarios, knowledgeArticles } from '../data/content'
         <p>以下 6 个代表性问题分别说明包装、家具、过滤和工程铺设等场景需要提供的用途、工况、样品或设计资料；完整内容收录在应用页和产品详情页。</p>
       </div>
       <ScenarioGrid scenarios={featuredScenarios} compact linkToProduct />
-      <a class="section-link section-link--standalone" href="/applications/">查看应用领域详情</a>
+        <a class="section-link section-link--standalone" href={withBase('/applications/')}>查看应用领域详情</a>
     </div>
   </section>
 
@@ -118,7 +119,7 @@ import { faqItems, featuredScenarios, knowledgeArticles } from '../data/content'
         <p class="section-heading__eyebrow">KNOWLEDGE</p>
         <h2>知识中心</h2>
         <p>不知道材质或规格时，可以从最终用途、现用样品、成品尺寸、后加工方式和收货地点开始整理询价信息。</p>
-        <a class="section-link section-link--standalone" href={`/knowledge/${knowledgeArticles[0].slug}/`}>阅读采购清单</a>
+        <a class="section-link section-link--standalone" href={withBase(`/knowledge/${knowledgeArticles[0].slug}/`)}>阅读采购清单</a>
       </div>
       <div class="faq-list">
         {faqItems.slice(0, 4).map((item) => (
@@ -127,7 +128,7 @@ import { faqItems, featuredScenarios, knowledgeArticles } from '../data/content'
             <p>{item.answer}</p>
           </details>
         ))}
-        <a class="section-link section-link--standalone" href="/knowledge/">查看全部 FAQ 与知识文章</a>
+        <a class="section-link section-link--standalone" href={withBase('/knowledge/')}>查看全部 FAQ 与知识文章</a>
       </div>
     </div>
   </section>

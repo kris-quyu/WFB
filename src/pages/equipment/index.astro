@@ -4,6 +4,7 @@ import PageHero from '../../components/PageHero.astro';
 import PhotoEvidence from '../../components/PhotoEvidence.astro';
 import ContactPanel from '../../components/ContactPanel.astro';
 import { siteConfig } from '../../data/site';
+import { withBase } from '../../utils/path';
 const crumbs = [{ label: '首页', href: '/' }, { label: '生产设备', href: '/equipment/' }];
 ---
 
@@ -11,7 +12,7 @@ const crumbs = [{ label: '首页', href: '/' }, { label: '生产设备', href: '
   <PageHero eyebrow="生产现场" title="生产设备" description="常规生产与卷材整理设备用于无纺材料加工、成卷和订单交付。" breadcrumbs={crumbs}/>
   <section class="section">
     <div class="container equipment-layout">
-      <PhotoEvidence src="/images/nonwoven-production-line.png" alt="天瑞无纺布生产线与白色卷材现场" label="实际生产现场" caption="现场照片记录了工厂用于材料加工、成卷和产品整理的普通生产与辅助设备；具体适配规格以订单沟通为准。" />
+      <PhotoEvidence src={withBase('/images/nonwoven-production-line.png')} alt="天瑞无纺布生产线与白色卷材现场" label="实际生产现场" caption="现场照片记录了工厂用于材料加工、成卷和产品整理的普通生产与辅助设备；具体适配规格以订单沟通为准。" />
       <div class="equipment-copy">
         <p class="eyebrow">EQUIPMENT</p>
         <h2>常规生产与卷材整理设备</h2>

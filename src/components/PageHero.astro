@@ -1,4 +1,5 @@
 ---
+import { withBase } from '../utils/path';
 interface Crumb {
   label: string;
   href?: string;
@@ -19,7 +20,7 @@ const { eyebrow = '企业信息', title, description, breadcrumbs = [] } = Astro
     {breadcrumbs.length > 0 && (
       <ol class="breadcrumbs" aria-label="面包屑导航">
         {breadcrumbs.map((crumb) => (
-          <li>{crumb.href ? <a href={crumb.href}>{crumb.label}</a> : <span aria-current="page">{crumb.label}</span>}</li>
+          <li>{crumb.href ? <a href={withBase(crumb.href)}>{crumb.label}</a> : <span aria-current="page">{crumb.label}</span>}</li>
         ))}
       </ol>
     )}

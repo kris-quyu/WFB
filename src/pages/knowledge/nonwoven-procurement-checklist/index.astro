@@ -4,12 +4,13 @@ import PageHero from '../../../components/PageHero.astro';
 import ContactPanel from '../../../components/ContactPanel.astro';
 import { knowledgeArticles } from '../../../data/content';
 import { siteConfig } from '../../../data/site';
+import { withBase } from '../../../utils/path';
 
 const article = knowledgeArticles[0];
-const path = `/knowledge/${article.slug}/`;
+const path = withBase(`/knowledge/${article.slug}/`);
 const crumbs = [
-  { label: '首页', href: '/' },
-  { label: 'FAQ / 知识库', href: '/knowledge/' },
+  { label: '首页', href: withBase('/') },
+  { label: 'FAQ / 知识库', href: withBase('/knowledge/') },
   { label: article.title, href: path },
 ];
 const articleJsonLd = {

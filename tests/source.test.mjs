@@ -13,10 +13,10 @@ test('site data exposes one product introduction navigation target', () => {
   const expectedPaths = ['/', '/#about', '/#products', '/#factory', '/#equipment', '/#applications', '/#knowledge'];
 
   for (const path of expectedPaths) {
-    assert.match(source, new RegExp(`href:\\s*['\"]${path.replaceAll('/', '\\/')}['\"]`));
+    assert.match(source, new RegExp(`href:\\s*withBase\\(['\"]${path.replaceAll('/', '\\/')}['\"]\\)`));
   }
 
-  assert.match(source, /label:\s*['"]产品中心['"]\s*,\s*href:\s*['"]\/#products['"]/);
+  assert.match(source, /label:\s*['"]产品中心['"]\s*,\s*href:\s*withBase\(['"]\/#products['"]\)/);
   assert.doesNotMatch(source, /质量检测|\/quality\//);
   assert.doesNotMatch(source, /href:\s*['"]\/products\/product-[abc]\//);
 });
@@ -36,7 +36,7 @@ test('site data exposes verified Tianrui identity and no unsupported claims', ()
     assert.match(source, new RegExp(value));
   }
   assert.doesNotMatch(source, /email\s*:/);
-  assert.match(source, /https:\/\/www\.example\.com/);
+  assert.match(source, /https:\/\/kris-quyu\.github\.io/);
   assert.doesNotMatch(source, /行业领先|全球领先|年产\s*\d|通过\s*ISO/);
 });
 
@@ -162,7 +162,7 @@ test('JSON-LD is emitted as an explicit inline data script', () => {
 
 test('layout declares an existing temporary favicon asset', () => {
   const layout = readFileSync(resolve(root, 'src/layouts/BaseLayout.astro'), 'utf8');
-  assert.match(layout, /rel="icon"[^>]+href="\/images\/nonwoven-production-line\.png"/);
+  assert.match(layout, /rel="icon"[^>]+href=\{withBase\('\/images\/nonwoven-production-line\.png'\)\}/);
 });
 
 test('global shell includes safeguards against horizontal overflow', () => {

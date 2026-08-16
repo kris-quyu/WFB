@@ -1,3 +1,5 @@
+import { withBase } from '../utils/path';
+
 export interface ProductSpecification {
   label: string;
   value: string;
@@ -35,7 +37,7 @@ export const products: Product[] = [
     slug: 'product-a',
     displayName: '无纺布',
     confirmedName: '无纺布',
-    image: '/images/product-nonwoven.png',
+    image: withBase('/images/product-nonwoven.png'),
     imageAlt: '天瑞无纺布白色卷材实际产品照片',
     summary: '无纺布以卷材形式供应，常用于包装防护、家具辅料、过滤、农业覆盖及其他加工场景，具体选型需要结合用途和目标规格。',
     material: '行业常见原料包括聚丙烯、聚酯等；实际材质以样品或订单要求为准',
@@ -60,7 +62,7 @@ export const products: Product[] = [
     slug: 'product-b',
     displayName: '针刺布',
     confirmedName: '针刺布',
-    image: '/images/product-needle-punched-fabric.png',
+    image: withBase('/images/product-needle-punched-fabric.png'),
     imageAlt: '天瑞白色针刺布卷材实际产品照片',
     summary: '针刺布通过针刺方式使纤维网形成结构，常见于过滤、衬垫、防护、家具辅料及工业加工，实际性能取决于原料和规格。',
     material: '行业常见原料包括涤纶、丙纶及其他纤维，实际配方以样品或订单要求为准',
@@ -85,7 +87,7 @@ export const products: Product[] = [
     slug: 'product-c',
     displayName: '土工布',
     confirmedName: '土工布',
-    image: '/images/product-geotextile.png',
+    image: withBase('/images/product-geotextile.png'),
     imageAlt: '天瑞黑色土工布卷材实际产品照片',
     summary: '土工布常用于工程中的隔离、过滤、排水或防护场景，选型需要结合铺设位置、土体条件、设计要求和执行标准。',
     material: '行业常见原料包括聚酯、聚丙烯等合成纤维，实际材质需结合产品资料确认',

@@ -1,7 +1,8 @@
 ---
 import { navigation, siteConfig } from '../data/site';
+import { withBase, withoutBase } from '../utils/path';
 
-const currentPath = Astro.url.pathname;
+const currentPath = withoutBase(Astro.url.pathname);
 const activeSection = currentPath === '/'
   ? ''
   : navigation.find((item) => item.href.includes(currentPath.split('/').filter(Boolean)[0] ?? ''))?.href.split('#')[1];
@@ -15,7 +16,7 @@ const activeSection = currentPath === '/'
     </div>
   </div>
   <div class="container header-main">
-    <a class="brand" href="/" aria-label="返回企业首页">
+    <a class="brand" href={withBase('/')} aria-label="返回企业首页">
       <span class="brand__name">{siteConfig.shortName}</span>
       <span class="brand__descriptor">NONWOVEN · MANUFACTURING</span>
     </a>
@@ -27,7 +28,7 @@ const activeSection = currentPath === '/'
         {navigation.map((item) => (
           <li>
             <a
-              class:list={[{ active: item.href === '/' ? currentPath === '/' : item.href.endsWith(`#${activeSection}`) }]}
+              class:list={[{ active: item.href === withBase('/') ? currentPath === '/' : item.href.endsWith(`#${activeSection}`) }]}
               href={item.href}
               data-section-link={item.href.includes('#') ? item.href.split('#')[1] : 'home'}
             >
@@ -58,7 +59,8 @@ const activeSection = currentPath === '/'
     });
   });
 
-  if (window.location.pathname === '/') {
+  const basePath = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
+  if (window.location.pathname === basePath || window.location.pathname === `${basePath}index.html`) {
     const sections = [...document.querySelectorAll<HTMLElement>('main > [data-scroll-section]')];
     const setActive = (id: string) => {
       sectionLinks.forEach((link) => link.classList.toggle('active', link.dataset.sectionLink === id));

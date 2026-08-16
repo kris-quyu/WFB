@@ -4,10 +4,11 @@ import PageHero from '../../components/PageHero.astro';
 import PhotoEvidence from '../../components/PhotoEvidence.astro';
 import EvidenceCard from '../../components/EvidenceCard.astro';
 import { siteConfig } from '../../data/site';
+import { withBase } from '../../utils/path';
 const crumbs = [{ label: '首页', href: '/' }, { label: '工厂实力', href: '/factory/' }];
 ---
 <BaseLayout title={`工厂实力｜${siteConfig.shortName}`} description="查看无纺布生产现场、原料管理、生产流程、仓储和发货资料。" canonicalPath="/factory/" breadcrumbs={crumbs}>
   <PageHero eyebrow="生产现场" title="工厂实力" description="从需求确认到卷材交付，了解无纺材料订单常见的沟通与生产整理流程。" breadcrumbs={crumbs} />
-  <section class="section"><div class="container"><PhotoEvidence src="/images/nonwoven-production-line.png" alt="无纺布生产设备与白色卷材现场" label="无纺布卷材生产现场" caption="现场设备用于无纺材料加工、卷材整理与收卷。客户确定用途和规格后，再沟通相应产品方案与供货要求。" wide /></div></section>
+  <section class="section"><div class="container"><PhotoEvidence src={withBase('/images/nonwoven-production-line.png')} alt="无纺布生产设备与白色卷材现场" label="无纺布卷材生产现场" caption="现场设备用于无纺材料加工、卷材整理与收卷。客户确定用途和规格后，再沟通相应产品方案与供货要求。" wide /></div></section>
   <section class="section section--warm"><div class="container grid grid--2"><EvidenceCard index="01" title="需求确认" description="了解产品用途、使用环境、目标尺寸和采购数量。"/><EvidenceCard index="02" title="规格确认" description="核对材质、克重、幅宽、颜色、卷长及后续加工要求。"/><EvidenceCard index="03" title="生产与整理" description="按确认的产品类型和规格进行加工、卷材整理与收卷。"/><EvidenceCard index="04" title="包装与交付" description="确认包装、标签、数量、收货地址和运输安排。"/></div></section>
 </BaseLayout>

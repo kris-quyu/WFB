@@ -1,5 +1,6 @@
 ---
 import type { Product } from '../data/products';
+import { withBase } from '../utils/path';
 
 interface Props {
   product: Product;
@@ -9,7 +10,7 @@ const { product } = Astro.props;
 ---
 
 <article id={product.slug} data-product-card={product.slug} class="product-card card">
-  <a class="product-card__image-link" href={`/products/${product.slug}/`} aria-label={`查看${product.displayName}详情`}>
+  <a class="product-card__image-link" href={withBase(`/products/${product.slug}/`)} aria-label={`查看${product.displayName}详情`}>
     <img class="product-card__image" src={product.image} alt={product.imageAlt} width="1254" height="1254" loading="lazy" decoding="async" />
   </a>
   <p class="product-card__index">实际产品</p>
@@ -20,7 +21,7 @@ const { product } = Astro.props;
     <div><dt>常见工艺</dt><dd>{product.process}</dd></div>
     <div><dt>选型重点</dt><dd>{product.selectionFocus.slice(0, 2).join('、')}</dd></div>
   </dl>
-  <a class="text-link" href={`/products/${product.slug}/`}>查看参数与采购事项</a>
+  <a class="text-link" href={withBase(`/products/${product.slug}/`)}>查看参数与采购事项</a>
 </article>
 
 <style>

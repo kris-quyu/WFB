@@ -7,15 +7,16 @@ import ContactPanel from './ContactPanel.astro';
 import type { Product } from '../data/products';
 import { getScenariosForProduct } from '../data/content';
 import { siteConfig } from '../data/site';
+import { withBase } from '../utils/path';
 
 interface Props {
   product: Product;
 }
 
 const { product } = Astro.props;
-const path = `/products/${product.slug}/`;
+const path = withBase(`/products/${product.slug}/`);
 const crumbs = [
-  { label: '首页', href: '/' },
+  { label: '首页', href: withBase('/') },
   { label: product.displayName, href: path },
 ];
 const productJsonLd = {

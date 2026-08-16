@@ -1,5 +1,6 @@
 ---
 import type { MicroScenario } from '../data/content';
+import { withBase } from '../utils/path';
 
 interface Props {
   scenarios: MicroScenario[];
@@ -35,7 +36,7 @@ const { scenarios, compact = false, linkToProduct = false } = Astro.props;
         </dl>
       )}
       {linkToProduct && (
-        <a class="scenario-card__link" href={`/products/${scenario.productSlug}/#${scenario.slug}`}>
+        <a class="scenario-card__link" href={withBase(`/products/${scenario.productSlug}/#${scenario.slug}`)}>
           查看完整选型说明
         </a>
       )}

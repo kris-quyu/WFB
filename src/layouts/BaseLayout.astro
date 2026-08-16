@@ -5,6 +5,7 @@ import SiteFooter from '../components/SiteFooter.astro';
 import WeChatContact from '../components/WeChatContact.astro';
 import JsonLd from '../components/JsonLd.astro';
 import { siteConfig, isConfirmedValue } from '../data/site';
+import { withBase } from '../utils/path';
 
 interface Breadcrumb {
   label: string;
@@ -26,12 +27,12 @@ const {
   breadcrumbs = [],
   jsonLd,
 } = Astro.props;
-const canonical = new URL(canonicalPath, siteConfig.siteUrl).toString();
+const canonical = new URL(withBase(canonicalPath), siteConfig.siteUrl).toString();
 const organization: Record<string, unknown> = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: siteConfig.companyName,
-  url: siteConfig.siteUrl,
+  url: new URL(withBase('/'), siteConfig.siteUrl).toString(),
   description: siteConfig.description,
   foundingDate: siteConfig.foundedAt,
   identifier: siteConfig.creditCode,
@@ -52,7 +53,7 @@ const breadcrumbJsonLd = breadcrumbs.length > 0 ? {
     '@type': 'ListItem',
     position: index + 1,
     name: item.label,
-    item: new URL(item.href, siteConfig.siteUrl).toString(),
+    item: new URL(withBase(item.href), siteConfig.siteUrl).toString(),
   })),
 } : undefined;
 
@@ -74,8 +75,8 @@ const structuredData = [organization, breadcrumbJsonLd, ...(Array.isArray(jsonLd
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta name="theme-color" content="#405066" />
-    <link rel="icon" type="image/png" href="/images/nonwoven-production-line.png" />
-    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="icon" type="image/png" href={withBase('/images/nonwoven-production-line.png')} />
+    <link rel="manifest" href={withBase('/site.webmanifest')} />
     <JsonLd data={structuredData} />
   </head>
   <body>

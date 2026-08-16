@@ -36,10 +36,40 @@ test('static build contains all routes and unique metadata', () => {
     assert.ok(title, `${route || '/'} should have a title`);
     titles.add(title);
     assert.match(html, /<meta name="description" content="[^"]+"/);
-    assert.match(html, /<link rel="canonical" href="https:\/\/www\.example\.com\/[^"]*"/);
+    assert.match(html, /<link rel="canonical" href="https:\/\/kris-quyu\.github\.io\/WFB\/[^"]*"/);
   }
   assert.equal(titles.size, routes.length, 'every route should have a unique title');
   assert.equal(existsSync(resolve(dist, 'quality', 'index.html')), false, 'quality route should be removed');
+});
+
+test('GitHub Pages build prefixes local assets and internal links with the configured base path', () => {
+  const base = '/WFB/';
+  const rendered = routes.map((route) => htmlFor(route)).join('\n');
+
+  for (const expected of [
+    '/WFB/images/nonwoven-production-line.png',
+    '/WFB/images/product-nonwoven.png',
+    '/WFB/images/product-needle-punched-fabric.png',
+    '/WFB/images/product-geotextile.png',
+    '/WFB/images/wechat-contact.jpg',
+    '/WFB/site.webmanifest',
+    '/WFB/about/',
+    '/WFB/products/',
+    '/WFB/factory/',
+    '/WFB/equipment/',
+    '/WFB/applications/',
+    '/WFB/knowledge/',
+    '/WFB/products/product-a/',
+    '/WFB/products/product-b/',
+    '/WFB/products/product-c/',
+    '/WFB/#about',
+  ]) {
+    assert.ok(rendered.includes(expected), `expected ${expected} in the built site`);
+  }
+
+  assert.doesNotMatch(rendered, /(?:href|src)="\/(?!WFB\/|_astro\/|favicon\.ico)/);
+  assert.match(htmlFor(''), new RegExp(`<link rel="canonical" href="https://kris-quyu\\.github\\.io${base}`));
+  assert.match(readFileSync(resolve(dist, 'robots.txt'), 'utf8'), /Sitemap: https:\/\/kris-quyu\.github\.io\/WFB\/sitemap-index\.xml/);
 });
 
 test('navigation follows the simplified small-enterprise information architecture', () => {
@@ -48,9 +78,9 @@ test('navigation follows the simplified small-enterprise information architectur
   const labels = [...navigation.matchAll(/<a\b[^>]*>([^<]+)<\/a>/g)].map((item) => item[1].trim());
   assert.deepEqual(labels, ['首页', '关于我们', '产品中心', '工厂实力', '生产设备', '应用领域', '知识中心']);
   for (const target of ['#about', '#products', '#factory', '#equipment', '#applications', '#knowledge']) {
-    assert.match(navigation, new RegExp(`href="\/${target}"`));
+    assert.match(navigation, new RegExp(`href="\/WFB\/${target}"`));
   }
-  assert.doesNotMatch(home, /href="\/quality\/"|质量检测/);
+  assert.doesNotMatch(home, /href="\/WFB\/quality\/"|质量检测/);
 });
 
 test('structured data matches page intent', () => {
@@ -66,7 +96,7 @@ test('robots and sitemap are deployment-ready', () => {
   assert.equal(existsSync(robotsPath), true, 'robots.txt should build');
   const robots = readFileSync(robotsPath, 'utf8');
   assert.match(robots, /User-agent: \*/);
-  assert.match(robots, /Sitemap: https:\/\/www\.example\.com\/sitemap-index\.xml/);
+  assert.match(robots, /Sitemap: https:\/\/kris-quyu\.github\.io\/WFB\/sitemap-index\.xml/);
   assert.equal(existsSync(resolve(dist, 'sitemap-index.xml')), true, 'sitemap index should build');
 });
 
@@ -79,7 +109,7 @@ test('homepage presents every primary module as one continuous document', () => 
   const ids = [...main.matchAll(/<section\b[^>]*id="([^"]+)"/g)].map((match) => match[1]);
   assert.deepEqual(ids, ['about', 'products', 'factory', 'equipment', 'applications', 'knowledge']);
   assert.doesNotMatch(main, /class="product-showcase/);
-  assert.match(main, /src="\/images\/nonwoven-production-line\.png"/);
+  assert.match(main, /src="\/WFB\/images\/nonwoven-production-line\.png"/);
   assert.match(main, /关于我们|产品中心|工厂实力|生产设备|应用领域|知识中心/);
   assert.doesNotMatch(main, /质量检测|质量流程/);
   assert.match(productsPage, /class="product-showcase/);
@@ -184,7 +214,7 @@ test('WeChat contact is accessible', () => {
   const home = htmlFor('');
   assert.match(home, /aria-haspopup="dialog"/);
   assert.match(home, /<dialog[^>]+id="wechat-contact-dialog"[^>]+aria-labelledby="wechat-dialog-title"/);
-  assert.match(home, /src="\/images\/wechat-contact\.jpg"/);
+  assert.match(home, /src="\/WFB\/images\/wechat-contact\.jpg"/);
   assert.match(home, /微信咨询|扫码添加好友/);
 });
 

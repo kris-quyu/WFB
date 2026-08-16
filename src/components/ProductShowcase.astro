@@ -1,10 +1,11 @@
 ---
 import ProductCard from './ProductCard.astro';
 import { products } from '../data/products';
+import { withBase } from '../utils/path';
 ---
 
 <section class="product-showcase section">
-  <div class="product-showcase__backdrop" aria-hidden="true"></div>
+  <div class="product-showcase__backdrop" aria-hidden="true" style={`background-image: url(${withBase('/images/nonwoven-production-line.png')})`}></div>
   <div class="container product-showcase__content">
     <div class="section-heading product-showcase__heading">
       <p class="section-heading__eyebrow">PRODUCT SHOWCASE</p>
@@ -70,7 +71,9 @@ import { products } from '../data/products';
     position: absolute;
     z-index: -2;
     inset: -32px;
-    background: url('/images/nonwoven-production-line.png') center / cover no-repeat;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     filter: blur(15px) saturate(72%);
     opacity: 0.72;
     transform: scale(1.06);

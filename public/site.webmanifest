@@ -1,7 +1,7 @@
 {
   "name": "待企业确认：企业法定名称",
   "short_name": "待确认企业简称",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#fffefa",
   "theme_color": "#174d3b",

@@ -3,6 +3,7 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   output: 'static',
-  site: 'https://www.example.com/',
+  site: 'https://kris-quyu.github.io',
+  base: '/WFB',
   integrations: [sitemap()],
 });

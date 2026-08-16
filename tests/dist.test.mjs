@@ -218,6 +218,22 @@ test('WeChat contact is accessible', () => {
   assert.match(home, /微信咨询|扫码添加好友/);
 });
 
+test('factory and equipment pages publish the latest supplied on-site photos', () => {
+  const rendered = `${htmlFor('factory')}\n${htmlFor('equipment')}`;
+
+  for (const image of [
+    'factory-finished-roll-processing.png',
+    'factory-fiber-processing-line.png',
+    'equipment-card-web-processing.png',
+    'equipment-finished-roll-line.png',
+  ]) {
+    assert.match(rendered, new RegExp(`/WFB/images/${image.replace('.', '\\.')}`));
+    assert.equal(existsSync(resolve(dist, 'images', image)), true, `${image} should be copied to dist`);
+  }
+
+  assert.match(htmlFor('equipment'), /不作为型号、产能或联系方式说明/);
+});
+
 test('equipment copy stays concise', () => {
   const equipment = htmlFor('equipment');
   assert.doesNotMatch(equipment, /设备型号|设备数量/);
